@@ -17,15 +17,36 @@ export default function AdminDashboard({ projects: initial }) {
   const [cover, setCover] = useState('')
   const [gallery, setGallery] = useState([])
   const [status, setStatus] = useState({ type: 'idle', msg: '' })
+  const [editingId, setEditingId] = useState(null)
 
   const onChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
+
+  const resetForm = () => {
+    setForm(empty); setCover(''); setGallery([]); setEditingId(null)
+  }
+
+  const handleEdit = (p) => {
+    setForm({
+      title: p.title || '',
+      type: p.type || 'interior',
+      category: p.category || '',
+      location: p.location || '',
+      year: p.year ? String(p.year) : '',
+      description: p.description || '',
+      tags: (p.tags || []).join(', '),
+    })
+    setCover(p.cover || '')
+    setGallery(p.images || [])
+    setEditingId(p.id)
+    setStatus({ type: 'idle', msg: '' })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!cover) return setStatus({ type: 'error', msg: 'Please upload a cover image.' })
     setStatus({ type: 'loading', msg: '' })
-    const payload = {
-      slug: slugify(form.title) + '-' + Date.now().toString().slice(-5),
+    const base = {
       type: form.type,
       category: form.category || null,
       title: form.title,
@@ -37,17 +58,29 @@ export default function AdminDashboard({ projects: initial }) {
       images: gallery,
     }
     try {
-      const res = await fetch('/api/projects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
-      if (!res.ok) throw new Error()
-      setProjects((p) => [{ ...payload, id: Date.now(), cover, images: gallery }, ...p])
-      setForm(empty); setCover(''); setGallery([])
-      setStatus({ type: 'success', msg: 'Project added.' })
+      if (editingId) {
+        const res = await fetch(`/api/projects?id=${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(base),
+        })
+        if (!res.ok) throw new Error()
+        setProjects((p) => p.map((x) => (x.id === editingId ? { ...x, ...base, cover, images: gallery } : x)))
+        setStatus({ type: 'success', msg: 'Project updated.' })
+      } else {
+        const payload = { ...base, slug: slugify(form.title) + '-' + Date.now().toString().slice(-5) }
+        const res = await fetch('/api/projects', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+        if (!res.ok) throw new Error()
+        setProjects((p) => [{ ...payload, id: Date.now(), cover, images: gallery }, ...p])
+        setStatus({ type: 'success', msg: 'Project added.' })
+      }
+      resetForm()
     } catch {
-      setStatus({ type: 'error', msg: 'Failed to add project.' })
+      setStatus({ type: 'error', msg: editingId ? 'Failed to update project.' : 'Failed to add project.' })
     }
   }
 
@@ -84,7 +117,7 @@ export default function AdminDashboard({ projects: initial }) {
 
         {/* Add form */}
         <form onSubmit={handleSubmit} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4 mb-12 shadow-2xl">
-          <h2 className="text-lg font-semibold text-white">Add a project</h2>
+          <h2 className="text-lg font-semibold text-white">{editingId ? 'Edit project' : 'Add a project'}</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             <input name="title" value={form.title} onChange={onChange} required placeholder="Title *" className={inputCls} />
             <select name="type" value={form.type} onChange={onChange} className={inputCls}>
@@ -130,9 +163,16 @@ export default function AdminDashboard({ projects: initial }) {
 
           {status.type === 'error' && <p className="text-red-400 text-sm">{status.msg}</p>}
           {status.type === 'success' && <p className="text-emerald-400 text-sm">{status.msg}</p>}
-          <button type="submit" disabled={status.type === 'loading'} className="px-5 py-2.5 rounded-lg font-semibold text-white bg-[var(--color-accent-DEFAULT)] hover:bg-[var(--color-accent-dark)] transition-colors disabled:bg-gray-700">
-            {status.type === 'loading' ? 'Saving…' : 'Add project'}
-          </button>
+          <div className="flex items-center gap-3">
+            <button type="submit" disabled={status.type === 'loading'} className="px-5 py-2.5 rounded-lg font-semibold text-white bg-[var(--color-accent-DEFAULT)] hover:bg-[var(--color-accent-dark)] transition-colors disabled:bg-gray-700">
+              {status.type === 'loading' ? 'Saving…' : (editingId ? 'Save changes' : 'Add project')}
+            </button>
+            {editingId && (
+              <button type="button" onClick={resetForm} className="px-5 py-2.5 rounded-lg font-medium text-gray-300 hover:text-white border border-white/10 hover:bg-white/5 transition-colors">
+                Cancel
+              </button>
+            )}
+          </div>
         </form>
 
         <h2 className="text-lg font-semibold text-white mb-4">Projects ({projects.length})</h2>
@@ -148,7 +188,10 @@ export default function AdminDashboard({ projects: initial }) {
                   <p className="font-semibold text-sm text-white">{p.title}</p>
                   <p className="text-xs text-gray-400 capitalize">{p.type}{p.category ? ` · ${p.category}` : ''}</p>
                 </div>
-                <button onClick={() => handleDelete(p.id)} className="text-red-400 text-xs hover:text-red-300 shrink-0">Delete</button>
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                  <button onClick={() => handleEdit(p)} className="text-[var(--color-accent-DEFAULT)] text-xs hover:text-white">Edit</button>
+                  <button onClick={() => handleDelete(p.id)} className="text-red-400 text-xs hover:text-red-300">Delete</button>
+                </div>
               </div>
             </div>
           ))}

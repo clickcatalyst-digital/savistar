@@ -42,3 +42,21 @@ export async function createProject(d) {
 export async function deleteProject(id) {
   await turso.execute({ sql: 'DELETE FROM projects WHERE id = ?', args: [id] })
 }
+
+export async function getProject(id) {
+  const { rows } = await turso.execute({ sql: 'SELECT * FROM projects WHERE id = ?', args: [id] })
+  return rows.length ? normalize(rows[0]) : null
+}
+
+export async function updateProject(id, d) {
+  await turso.execute({
+    sql: `UPDATE projects SET type = ?, category = ?, title = ?, location = ?, year = ?, description = ?, tags = ?, cover_url = ?, images = ?
+          WHERE id = ?`,
+    args: [
+      d.type, d.category ?? null, d.title, d.location ?? null,
+      d.year ?? null, d.description ?? null,
+      JSON.stringify(d.tags ?? []), d.cover_url, JSON.stringify(d.images ?? []),
+      id,
+    ],
+  })
+}
