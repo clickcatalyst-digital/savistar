@@ -9,6 +9,8 @@ const slugify = (s) =>
 
 const empty = { title: '', type: 'interior', category: '', location: '', year: '', description: '', tags: '' }
 
+const inputCls = 'px-4 py-2 rounded-lg bg-gray-900/60 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-DEFAULT)]/60 focus:border-transparent transition'
+
 export default function AdminDashboard({ projects: initial }) {
   const [projects, setProjects] = useState(initial)
   const [form, setForm] = useState(empty)
@@ -66,27 +68,35 @@ export default function AdminDashboard({ projects: initial }) {
   }
 
   return (
-    <section className="section-padding pt-32">
-      <div className="container-custom max-w-4xl">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold">Portfolio Admin</h1>
-          <button onClick={logout} className="text-sm text-gray-600 hover:text-gray-900">Log out</button>
+    <main className="relative min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-[var(--color-primary-gradient-end)] text-gray-100 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-primary-DEFAULT)]/10 rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative container-custom max-w-4xl py-12 pt-28">
+        <div className="flex items-center justify-between mb-10">
+          <div>
+            <p className="text-[var(--color-accent-DEFAULT)] tracking-[0.3em] text-xs uppercase mb-1">Savistar</p>
+            <h1 className="text-2xl font-bold text-white">Portfolio Admin</h1>
+          </div>
+          <button onClick={logout} className="text-sm text-gray-400 hover:text-white transition-colors">Log out</button>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow p-6 space-y-4 mb-12 border border-gray-100">
-          <h2 className="text-lg font-semibold">Add a project</h2>
+        {/* Add form */}
+        <form onSubmit={handleSubmit} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4 mb-12 shadow-2xl">
+          <h2 className="text-lg font-semibold text-white">Add a project</h2>
           <div className="grid sm:grid-cols-2 gap-4">
-            <input name="title" value={form.title} onChange={onChange} required placeholder="Title *" className="px-4 py-2 border border-gray-300 rounded-lg" />
-            <select name="type" value={form.type} onChange={onChange} className="px-4 py-2 border border-gray-300 rounded-lg">
+            <input name="title" value={form.title} onChange={onChange} required placeholder="Title *" className={inputCls} />
+            <select name="type" value={form.type} onChange={onChange} className={inputCls}>
               <option value="interior">Interior</option>
               <option value="furniture">Furniture</option>
             </select>
-            <input name="category" value={form.category} onChange={onChange} placeholder="Category (e.g. Living Room)" className="px-4 py-2 border border-gray-300 rounded-lg" />
-            <input name="location" value={form.location} onChange={onChange} placeholder="Location" className="px-4 py-2 border border-gray-300 rounded-lg" />
-            <input name="year" type="number" value={form.year} onChange={onChange} placeholder="Year" className="px-4 py-2 border border-gray-300 rounded-lg" />
-            <input name="tags" value={form.tags} onChange={onChange} placeholder="Tags (comma separated)" className="px-4 py-2 border border-gray-300 rounded-lg" />
+            <input name="category" value={form.category} onChange={onChange} placeholder="Category (e.g. Living Room)" className={inputCls} />
+            <input name="location" value={form.location} onChange={onChange} placeholder="Location" className={inputCls} />
+            <input name="year" type="number" value={form.year} onChange={onChange} placeholder="Year" className={inputCls} />
+            <input name="tags" value={form.tags} onChange={onChange} placeholder="Tags (comma separated)" className={inputCls} />
           </div>
-          <textarea name="description" value={form.description} onChange={onChange} rows={3} placeholder="Short description" className="w-full px-4 py-2 border border-gray-300 rounded-lg" />
+          <textarea name="description" value={form.description} onChange={onChange} rows={3} placeholder="Short description" className={`${inputCls} w-full`} />
 
           <div className="flex items-center gap-4">
             <CldUploadWidget
@@ -95,12 +105,12 @@ export default function AdminDashboard({ projects: initial }) {
               onSuccess={(result) => setCover(result?.info?.public_id || '')}
             >
               {({ open }) => (
-                <button type="button" onClick={() => open()} className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm">
+                <button type="button" onClick={() => open()} className="px-4 py-2 rounded-lg text-sm font-medium bg-[var(--color-primary-DEFAULT)] text-white hover:bg-[var(--color-primary-dark)] transition-colors">
                   {cover ? 'Change cover' : 'Upload cover *'}
                 </button>
               )}
             </CldUploadWidget>
-            {cover && <CldImage src={cover} width={64} height={64} crop="fill" alt="cover preview" className="rounded-lg object-cover" />}
+            {cover && <CldImage src={cover} width={64} height={64} crop="fill" alt="cover preview" className="rounded-lg object-cover ring-1 ring-white/10" />}
           </div>
 
           <div className="flex items-center gap-4 flex-wrap">
@@ -110,39 +120,40 @@ export default function AdminDashboard({ projects: initial }) {
               onSuccess={(result) => { const id = result?.info?.public_id; if (id) setGallery((g) => [...g, id]) }}
             >
               {({ open }) => (
-                <button type="button" onClick={() => open()} className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg text-sm">
+                <button type="button" onClick={() => open()} className="px-4 py-2 rounded-lg text-sm font-medium bg-white/10 text-gray-100 hover:bg-white/20 transition-colors">
                   Add gallery images ({gallery.length})
                 </button>
               )}
             </CldUploadWidget>
-            {gallery.map((g) => <CldImage key={g} src={g} width={48} height={48} crop="fill" alt="" className="rounded object-cover" />)}
+            {gallery.map((g) => <CldImage key={g} src={g} width={48} height={48} crop="fill" alt="" className="rounded object-cover ring-1 ring-white/10" />)}
           </div>
 
-          {status.type === 'error' && <p className="text-red-600 text-sm">{status.msg}</p>}
-          {status.type === 'success' && <p className="text-green-600 text-sm">{status.msg}</p>}
-          <button type="submit" disabled={status.type === 'loading'} className="btn-primary disabled:bg-gray-400">
+          {status.type === 'error' && <p className="text-red-400 text-sm">{status.msg}</p>}
+          {status.type === 'success' && <p className="text-emerald-400 text-sm">{status.msg}</p>}
+          <button type="submit" disabled={status.type === 'loading'} className="px-5 py-2.5 rounded-lg font-semibold text-white bg-[var(--color-accent-DEFAULT)] hover:bg-[var(--color-accent-dark)] transition-colors disabled:bg-gray-700">
             {status.type === 'loading' ? 'Saving…' : 'Add project'}
           </button>
         </form>
 
-        <h2 className="text-lg font-semibold mb-4">Projects ({projects.length})</h2>
+        <h2 className="text-lg font-semibold text-white mb-4">Projects ({projects.length})</h2>
+        {projects.length === 0 && <p className="text-gray-400 text-sm">No projects yet — add your first one above.</p>}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects.map((p) => (
-            <div key={p.id} className="bg-white rounded-xl shadow border border-gray-100 overflow-hidden">
-              <div className="relative aspect-[4/3]">
+            <div key={p.id} className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+              <div className="relative aspect-[4/3] bg-gray-800">
                 {p.cover && <CldImage src={p.cover} fill crop="fill" alt={p.title} className="object-cover" sizes="(max-width:768px) 100vw, 33vw" />}
               </div>
               <div className="p-3 flex items-start justify-between gap-2">
                 <div>
-                  <p className="font-semibold text-sm">{p.title}</p>
-                  <p className="text-xs text-gray-500 capitalize">{p.type}{p.category ? ` · ${p.category}` : ''}</p>
+                  <p className="font-semibold text-sm text-white">{p.title}</p>
+                  <p className="text-xs text-gray-400 capitalize">{p.type}{p.category ? ` · ${p.category}` : ''}</p>
                 </div>
-                <button onClick={() => handleDelete(p.id)} className="text-red-600 text-xs hover:underline shrink-0">Delete</button>
+                <button onClick={() => handleDelete(p.id)} className="text-red-400 text-xs hover:text-red-300 shrink-0">Delete</button>
               </div>
             </div>
           ))}
         </div>
       </div>
-    </section>
+    </main>
   )
 }
