@@ -7,7 +7,7 @@ import { CldUploadWidget, CldImage } from 'next-cloudinary'
 const slugify = (s) =>
   s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
-const empty = { title: '', type: 'interior', category: '', location: '', year: '', description: '', tags: '' }
+const empty = { title: '', type: 'interior', category: '', location: '', year: '', description: '', body: '', tags: '' }
 
 const inputCls = 'px-4 py-2 rounded-lg bg-gray-900/60 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-DEFAULT)]/60 focus:border-transparent transition'
 
@@ -33,6 +33,7 @@ export default function AdminDashboard({ projects: initial }) {
       location: p.location || '',
       year: p.year ? String(p.year) : '',
       description: p.description || '',
+      body: p.body || '',
       tags: (p.tags || []).join(', '),
     })
     setCover(p.cover || '')
@@ -53,6 +54,7 @@ export default function AdminDashboard({ projects: initial }) {
       location: form.location || null,
       year: form.year ? Number(form.year) : null,
       description: form.description || null,
+      body: p.body || '',
       tags: form.tags ? form.tags.split(',').map((t) => t.trim()).filter(Boolean) : [],
       cover_url: cover,
       images: gallery,
@@ -129,7 +131,8 @@ export default function AdminDashboard({ projects: initial }) {
             <input name="year" type="number" value={form.year} onChange={onChange} placeholder="Year" className={inputCls} />
             <input name="tags" value={form.tags} onChange={onChange} placeholder="Tags (comma separated)" className={inputCls} />
           </div>
-          <textarea name="description" value={form.description} onChange={onChange} rows={3} placeholder="Short description" className={`${inputCls} w-full`} />
+          <textarea name="description" value={form.description} onChange={onChange} rows={2} placeholder="Short description (shown on the card)" className={`${inputCls} w-full`} />
+          <textarea name="body" value={form.body} onChange={onChange} rows={6} placeholder="Full story / details (shown when the project is opened) — leave a blank line between paragraphs" className={`${inputCls} w-full`} />
 
           <div className="flex items-center gap-4">
             <CldUploadWidget

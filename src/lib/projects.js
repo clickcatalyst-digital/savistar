@@ -11,6 +11,7 @@ function normalize(r) {
     location: r.location,
     year: r.year ? Number(r.year) : null,
     description: r.description,
+    body: r.body ?? null,
     tags: r.tags ? JSON.parse(r.tags) : [],
     cover: r.cover_url,
     images: r.images ? JSON.parse(r.images) : [],
@@ -29,11 +30,11 @@ export async function getProjects(type) {
 
 export async function createProject(d) {
   await turso.execute({
-    sql: `INSERT INTO projects (slug, type, category, title, location, year, description, tags, cover_url, images)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    sql: `INSERT INTO projects (slug, type, category, title, location, year, description, body, tags, cover_url, images)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     args: [
       d.slug, d.type, d.category ?? null, d.title, d.location ?? null,
-      d.year ?? null, d.description ?? null,
+      d.year ?? null, d.description ?? null, d.body ?? null,
       JSON.stringify(d.tags ?? []), d.cover_url, JSON.stringify(d.images ?? []),
     ],
   })
@@ -50,11 +51,11 @@ export async function getProject(id) {
 
 export async function updateProject(id, d) {
   await turso.execute({
-    sql: `UPDATE projects SET type = ?, category = ?, title = ?, location = ?, year = ?, description = ?, tags = ?, cover_url = ?, images = ?
+    sql: `UPDATE projects SET type = ?, category = ?, title = ?, location = ?, year = ?, description = ?, body = ?, tags = ?, cover_url = ?, images = ?
           WHERE id = ?`,
     args: [
       d.type, d.category ?? null, d.title, d.location ?? null,
-      d.year ?? null, d.description ?? null,
+      d.year ?? null, d.description ?? null, d.body ?? null,
       JSON.stringify(d.tags ?? []), d.cover_url, JSON.stringify(d.images ?? []),
       id,
     ],

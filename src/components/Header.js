@@ -13,6 +13,8 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
+  const darkHeroRoutes = ['/', '/interior', '/furniture', '/portfolio', '/about', '/contact']
+  const solid = isScrolled || !darkHeroRoutes.includes(pathname)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,7 +36,7 @@ export default function Header() {
   return (
     <motion.header 
       className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
+        solid ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -73,7 +75,7 @@ export default function Header() {
                     className={`font-medium transition-colors hover:text-[var(--color-accent-DEFAULT)] ${
                     pathname === item.href 
                         ? 'text-[var(--color-accent-DEFAULT)]' 
-                        : isScrolled ? 'text-gray-700' : 'text-gray-100'
+                        : solid ? 'text-gray-700' : 'text-gray-100'
                     }`}
                 >
                     {item.name}
@@ -124,7 +126,7 @@ export default function Header() {
             <motion.button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={`lg:hidden p-2 rounded-md transition-colors hover:text-[var(--color-accent-DEFAULT)] ${
-                isScrolled ? 'text-gray-700' : 'text-gray-100'
+                solid ? 'text-gray-700' : 'text-gray-100'
               }`}
               whileTap={{ scale: 0.9 }}
             >

@@ -3,16 +3,16 @@
 import './globals.css'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { Montserrat, Crimson_Text } from 'next/font/google'
+import { Montserrat, Playfair_Display } from 'next/font/google'
 import Script from "next/script";
 
 const GTAG_ID = process.env.NEXT_PUBLIC_GTAG_ID;
 
 const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat' })
-const crimson = Crimson_Text({ 
-  weight: ['400', '600'],
-  subsets: ['latin'], 
-  variable: '--font-crimson' 
+const playfair = Playfair_Display({
+  weight: ['600', '700'],
+  subsets: ['latin'],
+  variable: '--font-playfair',
 })
 
 export const metadata = {
@@ -136,7 +136,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${crimson.variable}`}>
+    <html lang="en" className={`${montserrat.variable} ${playfair.variable}`}>
       <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}`}
@@ -161,7 +161,7 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-sans antialiased bg-white text-gray-900">
+      <body className="antialiased bg-white text-gray-900">
         <Header />
         <main className="min-h-screen">
           {children}

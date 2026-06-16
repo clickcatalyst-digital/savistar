@@ -2,15 +2,27 @@
 
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Filter, Eye } from 'lucide-react'
+import { ArrowRight, Filter, Eye, X } from 'lucide-react'
 import Image from "next/image";
 import { CldImage } from 'next-cloudinary';
 import { sendGAEvent, GTM_EVENTS } from '../../lib/gtag'
 
 export default function PortfolioPage({ projects = [] }) {
   const [activeFilter, setActiveFilter] = useState('all')
+  const [selected, setSelected] = useState(null)
+
+  useEffect(() => {
+    if (!selected) return
+    const onKey = (e) => { if (e.key === 'Escape') setSelected(null) }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [selected])
 
   const handleFilterClick = (filterId) => {
     setActiveFilter(filterId);
@@ -157,10 +169,13 @@ export default function PortfolioPage({ projects = [] }) {
                 key={project.id} 
                 className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
                 style={{ animationDelay: `${index * 0.1}s` }}
-                onClick={() => sendGAEvent(GTM_EVENTS.viewPortfolio.action, { // <-- TRACKING ON CARD
+                onClick={() => {
+                  setSelected(project)
+                  sendGAEvent(GTM_EVENTS.viewPortfolio.action, {
                     event_category: GTM_EVENTS.viewPortfolio.category,
                     event_label: `Portfolio Grid - ${project.title}`,
-                })}
+                  })
+                }}
               >
                 <div className="relative overflow-hidden">
                     <div className="relative aspect-[4/3] overflow-hidden">
@@ -276,6 +291,76 @@ export default function PortfolioPage({ projects = [] }) {
           </div>
         </div>
       </section>
+
+      {/* Project detail overlay */}
+      {selected && (
+        <div
+          className="fixed inset-0 z-[60] flex items-start sm:items-center justify-center bg-black/70 backdrop-blur-sm p-4 overflow-y-auto"
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl my-8 overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative aspect-[16/9] bg-gray-100">
+              <CldImage src={selected.cover} alt={selected.title} fill crop="fill" className="object-cover" sizes="(max-width:1024px) 100vw, 896px" />
+              <button
+                onClick={() => setSelected(null)}
+                aria-label="Close"
+                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-6 sm:p-10">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-500 mb-3">
+                <span>{selected.type === 'furniture' ? 'Custom Furniture · SAAG' : 'Interior Design · Savistar'}</span>
+                {selected.category && <span>· {selected.category}</span>}
+                {selected.location && <span>· {selected.location}</span>}
+                {selected.year && <span>· {selected.year}</span>}
+              </div>
+
+              <h2 className="heading-md mb-6">{selected.title}</h2>
+
+              {(selected.body || selected.description) && (
+                <div className="max-w-2xl text-gray-700 text-lg leading-relaxed whitespace-pre-line mb-8">
+                  {selected.body || selected.description}
+                </div>
+              )}
+
+              {selected.tags?.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {selected.tags.map((tag, i) => (
+                    <span key={i} className="px-3 py-1 bg-[var(--color-accent-light)] text-[var(--color-accent-dark)] text-sm rounded-full border border-[var(--color-primary-light)]">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {selected.images?.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {selected.images.map((img, i) => (
+                    <div key={i} className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100">
+                      <CldImage src={img} alt={`${selected.title} ${i + 1}`} fill crop="fill" className="object-cover" sizes="(max-width:768px) 100vw, 50vw" />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="mt-10 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center gap-4">
+                <p className="text-gray-600 text-sm">Like this project? Let&rsquo;s create something for your space.</p>
+                <Link href="/contact" onClick={() => setSelected(null)} className="btn-primary text-sm px-6 py-2.5 sm:ml-auto">
+                  Start your project
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </>
   )
 }
