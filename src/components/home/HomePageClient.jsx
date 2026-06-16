@@ -48,10 +48,10 @@ const testimonials = [
 ]
 
 const stats = [
-  { value: 500, suffix: '+', label: 'Projects delivered', help: 'Homes, hospitality, workplaces since 2020' },
-  { value: 2,               label: 'CEPT-trained founders', help: 'Sachi and Haripriya lead design and delivery' },
-  { value: 4.9, suffix: '/5', label: 'Client satisfaction', help: 'Average from post-handover surveys' }, // use real number
-  { value: 98,  suffix: '%',  label: 'On-time delivery',    help: 'From workshop schedule to site handover' }
+  { number: 'Est. 2020', label: 'Founded', help: 'Design-led from day one' },
+  { number: 'Two brands', label: 'Interiors + furniture', help: 'Savistar interiors and SAAG furniture' },
+  { value: 2, label: 'CEPT-trained founders', help: 'Sachi and Haripriya lead design and delivery' },
+  { number: 'In-house', label: 'Concept to handover', help: 'Design, build and delivery managed end to end' }
 ];
 
 // helpers

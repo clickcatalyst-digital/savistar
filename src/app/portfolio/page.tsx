@@ -2,6 +2,7 @@
 
 // Import the client component
 import PortfolioPageClient from '../../components/portfolio/PortfolioPageClient'; 
+import { getProjects } from '../../lib/projects';
 
 // Metadata export lives here, safely on the server.
 export const metadata = {
@@ -53,6 +54,9 @@ export const metadata = {
 }
 
 // Renders the client component.
-export default function PortfolioPage() {
-  return <PortfolioPageClient />;
+export const dynamic = 'force-dynamic';
+
+export default async function PortfolioPage() {
+  const projects = await getProjects();
+  return <PortfolioPageClient projects={projects} />;
 }

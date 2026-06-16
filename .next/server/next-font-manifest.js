@@ -1,0 +1,1 @@
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/pujan/Developer/savistar-website/src/app/layout\":[\"static/media/e400baae650c21fc-s.p.woff2\",\"static/media/c7b4fd33734710f7-s.p.woff2\",\"static/media/904be59b21bd51cb-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"

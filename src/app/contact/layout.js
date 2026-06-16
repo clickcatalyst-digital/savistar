@@ -1,103 +1,103 @@
 // src/app/contact/layout.js
 
-export const metadata = {
-  title: 'Contact Savistar - Get Free Interior Design & Custom Furniture Consultation | Call +91-903-343-4098',
-  description: 'Contact Savistar for free interior design consultation and custom furniture quotes in Gandhinagar, Gujarat. Expert design services across India. Call +91-903-343-4098 or email savistarinterior@gmail.com for turnkey projects, 3D visualization, and bespoke furniture solutions.',
-  keywords: [
-    'contact interior designer',
-    'free design consultation',
-    'interior design quote',
-    'custom furniture quote',
-    'interior designer gandhinagar',
-    'design consultation booking',
-    'furniture manufacturing contact',
-    'interior design services contact',
-    'home design consultation',
-    'office design consultation',
-    'furniture design consultation',
-    'savistar contact details',
-    'interior design company contact',
-    'turnkey project consultation',
-    '3d visualization consultation',
-    'bespoke furniture consultation',
-    'residential design consultation',
-    'commercial design consultation',
-    'design project inquiry',
-    'furniture manufacturing inquiry',
-    'gandhinagar design services',
-    'gujarat interior designer contact'
-  ],
-  authors: [{ name: 'Savistar Customer Service Team' }],
-  creator: 'Savistar',
-  publisher: 'Savistar',
-  category: 'Contact & Consultation',
-  classification: 'Contact Information',
-  alternates: {
-    canonical: 'https://savistar.in/contact',
-  },
-  openGraph: {
-    title: 'Contact Savistar - Free Interior Design & Custom Furniture Consultation',
-    description: 'Get expert interior design consultation and custom furniture quotes. Located in Gandhinagar, Gujarat with nationwide delivery. Call +91-903-343-4098 for free consultation.',
-    url: 'https://savistar.in/contact',
-    siteName: 'Savistar',
-    images: [
-      {
-        url: '/images/og-contact.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Contact Savistar for interior design consultation in Gandhinagar',
-        type: 'image/jpeg',
-      },
-      {
-        url: '/images/office-location.jpg',
-        width: 800,
-        height: 600,
-        alt: 'Savistar office location in GIDC Gandhinagar',
-        type: 'image/jpeg',
-      }
-    ],
-    locale: 'en_IN',
-    type: 'website',
-    section: 'Contact',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@savistar_design',
-    creator: '@savistar_design',
-    title: 'Contact Savistar - Free Interior Design & Furniture Consultation',
-    description: 'Get expert interior design consultation and custom furniture quotes in Gandhinagar, Gujarat with nationwide delivery.',
-    images: {
-      url: '/images/og-contact.jpg',
-      alt: 'Contact Savistar for professional design consultation'
-    },
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    google: 'your-google-site-verification',
-    yandex: 'your-yandex-verification',
-    yahoo: 'your-yahoo-verification',
-  },
-  other: {
-    'revisit-after': '3 days',
-    'distribution': 'global',
-    'rating': 'general',
-    'doc-type': 'web',
-    'doc-rights': 'copywritten',
-    'cache-control': 'public, max-age=1800',
-    'contact-info': 'https://savistar.in/contact',
-  }
-}
+// export const metadata = {
+//   title: 'Contact Savistar - Get Free Interior Design & Custom Furniture Consultation | Call +91-903-343-4098',
+//   description: 'Contact Savistar for free interior design consultation and custom furniture quotes in Gandhinagar, Gujarat. Expert design services across India. Call +91-903-343-4098 or email savistarinterior@gmail.com for turnkey projects, 3D visualization, and bespoke furniture solutions.',
+//   keywords: [
+//     'contact interior designer',
+//     'free design consultation',
+//     'interior design quote',
+//     'custom furniture quote',
+//     'interior designer gandhinagar',
+//     'design consultation booking',
+//     'furniture manufacturing contact',
+//     'interior design services contact',
+//     'home design consultation',
+//     'office design consultation',
+//     'furniture design consultation',
+//     'savistar contact details',
+//     'interior design company contact',
+//     'turnkey project consultation',
+//     '3d visualization consultation',
+//     'bespoke furniture consultation',
+//     'residential design consultation',
+//     'commercial design consultation',
+//     'design project inquiry',
+//     'furniture manufacturing inquiry',
+//     'gandhinagar design services',
+//     'gujarat interior designer contact'
+//   ],
+//   authors: [{ name: 'Savistar Customer Service Team' }],
+//   creator: 'Savistar',
+//   publisher: 'Savistar',
+//   category: 'Contact & Consultation',
+//   classification: 'Contact Information',
+//   alternates: {
+//     canonical: 'https://savistar.in/contact',
+//   },
+//   openGraph: {
+//     title: 'Contact Savistar - Free Interior Design & Custom Furniture Consultation',
+//     description: 'Get expert interior design consultation and custom furniture quotes. Located in Gandhinagar, Gujarat with nationwide delivery. Call +91-903-343-4098 for free consultation.',
+//     url: 'https://savistar.in/contact',
+//     siteName: 'Savistar',
+//     images: [
+//       {
+//         url: '/images/og-contact.jpg',
+//         width: 1200,
+//         height: 630,
+//         alt: 'Contact Savistar for interior design consultation in Gandhinagar',
+//         type: 'image/jpeg',
+//       },
+//       {
+//         url: '/images/office-location.jpg',
+//         width: 800,
+//         height: 600,
+//         alt: 'Savistar office location in GIDC Gandhinagar',
+//         type: 'image/jpeg',
+//       }
+//     ],
+//     locale: 'en_IN',
+//     type: 'website',
+//     section: 'Contact',
+//   },
+//   twitter: {
+//     card: 'summary_large_image',
+//     site: '@savistar_design',
+//     creator: '@savistar_design',
+//     title: 'Contact Savistar - Free Interior Design & Furniture Consultation',
+//     description: 'Get expert interior design consultation and custom furniture quotes in Gandhinagar, Gujarat with nationwide delivery.',
+//     images: {
+//       url: '/images/og-contact.jpg',
+//       alt: 'Contact Savistar for professional design consultation'
+//     },
+//   },
+//   robots: {
+//     index: true,
+//     follow: true,
+//     nocache: false,
+//     googleBot: {
+//       index: true,
+//       follow: true,
+//       'max-video-preview': -1,
+//       'max-image-preview': 'large',
+//       'max-snippet': -1,
+//     },
+//   },
+//   verification: {
+//     google: 'your-google-site-verification',
+//     yandex: 'your-yandex-verification',
+//     yahoo: 'your-yahoo-verification',
+//   },
+//   other: {
+//     'revisit-after': '3 days',
+//     'distribution': 'global',
+//     'rating': 'general',
+//     'doc-type': 'web',
+//     'doc-rights': 'copywritten',
+//     'cache-control': 'public, max-age=1800',
+//     'contact-info': 'https://savistar.in/contact',
+//   }
+// }
 
 const jsonLd = {
   '@context': 'https://schema.org',

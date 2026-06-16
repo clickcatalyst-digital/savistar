@@ -6,9 +6,10 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Filter, Eye } from 'lucide-react'
 import Image from "next/image";
+import { CldImage } from 'next-cloudinary';
 import { sendGAEvent, GTM_EVENTS } from '../../lib/gtag'
 
-export default function PortfolioPage() {
+export default function PortfolioPage({ projects = [] }) {
   const [activeFilter, setActiveFilter] = useState('all')
 
   const handleFilterClick = (filterId) => {
@@ -22,88 +23,87 @@ export default function PortfolioPage() {
 
   const filters = [
     { id: 'all', label: 'All Projects' },
-    { id: 'residential', label: 'Residential' },
-    { id: 'commercial', label: 'Commercial' },
+    { id: 'interior', label: 'Interior Design' },
     { id: 'furniture', label: 'Custom Furniture' }
   ]
 
-  const projects = [
-    {
-      id: 1,
-      title: 'Modern Family Residence',
-      category: 'residential',
-      description: 'Complete home renovation with custom furniture and space optimization.',
-      image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop&crop=center',
-      tags: ['Interior Design', 'Custom Furniture', 'Turnkey Projects']
-    },
-    {
-      id: 2,
-      title: 'Executive Office Suite',
-      category: 'commercial',
-      description: 'Sophisticated corporate office design with branded elements and functionality.',
-      image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&crop=center',
-      tags: ['Commercial Design', 'Corporate Branding', 'WorkTurnkey Projects']
-    },
-    {
-      id: 3,
-      title: 'Handcrafted Dining Collection',
-      category: 'furniture',
-      description: 'Custom walnut dining set with live edge table and upholstered chairs.',
-      image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop&crop=center',
-      tags: ['Custom Manufacturing', 'Walnut', 'Dining Furniture']
-    },
-    {
-      id: 4,
-      title: 'Luxury Penthouse',
-      category: 'residential',
-      description: 'High-end penthouse design with panoramic city views and premium finishes.',
-      image: 'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=800&h=600&fit=crop&crop=center',
-      tags: ['Luxury Design', 'Penthouse', 'Premium Materials']
-    },
-    {
-      id: 5,
-      title: 'Tech Startup Headquarters',
-      category: 'commercial',
-      description: 'Innovative workspace design promoting creativity and collaboration.',
-      image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&h=600&fit=crop&crop=center',
-    },
-    {
-      id: 6,
-      title: 'Artisan Living Room Set',
-      category: 'furniture',
-      description: 'Bespoke living room furniture crafted from reclaimed oak with modern styling.',
-      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=600&fit=crop&crop=center',
-      tags: ['Custom Furniture', 'Reclaimed Wood', 'Sustainable Design']
-    },
-    {
-      id: 7,
-      title: 'Contemporary Townhouse',
-      category: 'residential',
-      description: 'Multi-level townhouse renovation with seamless indoor-outdoor living.',
-      image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&h=600&fit=crop&crop=center',
-      tags: ['Townhouse', 'Indoor-Outdoor', 'Contemporary Style']
-    },
-    {
-      id: 8,
-      title: 'Boutique Hotel Lobby',
-      category: 'commercial',
-      description: 'Elegant hotel lobby design with custom reception desk and seating areas.',
-      image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop&crop=center',
-      tags: ['Hospitality Design', 'Custom Reception', 'Luxury Finishes']
-    },
-    {
-      id: 9,
-      title: 'Executive Desk Collection',
-      category: 'furniture',
-      description: 'Premium executive office furniture with integrated technology solutions.',
-      image: 'https://images.unsplash.com/photo-1541558869434-2840d308329a?w=800&h=600&fit=crop&crop=center',
-      tags: ['Office Furniture', 'Technology Integration', 'Executive Design']
-    }
-  ]
+  // const projects = [
+  //   {
+  //     id: 1,
+  //     title: 'Modern Family Residence',
+  //     category: 'residential',
+  //     description: 'Complete home renovation with custom furniture and space optimization.',
+  //     image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop&crop=center',
+  //     tags: ['Interior Design', 'Custom Furniture', 'Turnkey Projects']
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Executive Office Suite',
+  //     category: 'commercial',
+  //     description: 'Sophisticated corporate office design with branded elements and functionality.',
+  //     image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&crop=center',
+  //     tags: ['Commercial Design', 'Corporate Branding', 'WorkTurnkey Projects']
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Handcrafted Dining Collection',
+  //     category: 'furniture',
+  //     description: 'Custom walnut dining set with live edge table and upholstered chairs.',
+  //     image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop&crop=center',
+  //     tags: ['Custom Manufacturing', 'Walnut', 'Dining Furniture']
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'Luxury Penthouse',
+  //     category: 'residential',
+  //     description: 'High-end penthouse design with panoramic city views and premium finishes.',
+  //     image: 'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=800&h=600&fit=crop&crop=center',
+  //     tags: ['Luxury Design', 'Penthouse', 'Premium Materials']
+  //   },
+  //   {
+  //     id: 5,
+  //     title: 'Tech Startup Headquarters',
+  //     category: 'commercial',
+  //     description: 'Innovative workspace design promoting creativity and collaboration.',
+  //     image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&h=600&fit=crop&crop=center',
+  //   },
+  //   {
+  //     id: 6,
+  //     title: 'Artisan Living Room Set',
+  //     category: 'furniture',
+  //     description: 'Bespoke living room furniture crafted from reclaimed oak with modern styling.',
+  //     image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=600&fit=crop&crop=center',
+  //     tags: ['Custom Furniture', 'Reclaimed Wood', 'Sustainable Design']
+  //   },
+  //   {
+  //     id: 7,
+  //     title: 'Contemporary Townhouse',
+  //     category: 'residential',
+  //     description: 'Multi-level townhouse renovation with seamless indoor-outdoor living.',
+  //     image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&h=600&fit=crop&crop=center',
+  //     tags: ['Townhouse', 'Indoor-Outdoor', 'Contemporary Style']
+  //   },
+  //   {
+  //     id: 8,
+  //     title: 'Boutique Hotel Lobby',
+  //     category: 'commercial',
+  //     description: 'Elegant hotel lobby design with custom reception desk and seating areas.',
+  //     image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop&crop=center',
+  //     tags: ['Hospitality Design', 'Custom Reception', 'Luxury Finishes']
+  //   },
+  //   {
+  //     id: 9,
+  //     title: 'Executive Desk Collection',
+  //     category: 'furniture',
+  //     description: 'Premium executive office furniture with integrated technology solutions.',
+  //     image: 'https://images.unsplash.com/photo-1541558869434-2840d308329a?w=800&h=600&fit=crop&crop=center',
+  //     tags: ['Office Furniture', 'Technology Integration', 'Executive Design']
+  //   }
+  // ]
 
-  const filteredProjects = activeFilter === 'all' 
-    ? projects 
-    : projects.filter(project => project.category === activeFilter)
+  const filteredProjects = activeFilter === 'all'
+    ? projects
+    : projects.filter(project => project.type === activeFilter)
 
   return (
     <>
@@ -164,10 +164,11 @@ export default function PortfolioPage() {
               >
                 <div className="relative overflow-hidden">
                     <div className="relative aspect-[4/3] overflow-hidden">
-                        <Image 
-                            src={project.image}
+                        <CldImage 
+                            src={project.cover}
                             alt={project.title}
                             fill
+                            crop="fill"
                             className="object-cover group-hover:scale-110 transition-transform duration-500"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
@@ -189,10 +190,9 @@ export default function PortfolioPage() {
                   </p>
 
                   <div className="text-xs text-gray-500 italic mt-4 pt-4 border-t border-gray-100">
-                        {project.category === 'furniture'
-                            ? 'Custom furniture handcrafted by Saag.'
-                            : `Complete interior design by Savistar.`}
-                        {project.category === 'residential' && ` Includes custom furniture by Saag.`}
+                        {project.type === 'furniture'
+                            ? 'Custom furniture handcrafted by SAAG.'
+                            : 'Complete interior design by Savistar.'}
                     </div>
                   
                   <div className="flex flex-wrap gap-2">
@@ -219,37 +219,6 @@ export default function PortfolioPage() {
               <p className="text-gray-400">Try selecting a different filter to view more projects.</p>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="heading-lg mb-6">Project Impact</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Every project tells a story of transformation, innovation, and client satisfaction.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 text-center">
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <div className="text-4xl font-bold text-[var(--color-primary-DEFAULT)] mb-2">500+</div>
-              <div className="text-gray-600">Projects Completed</div>
-            </div>
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <div className="text-4xl font-bold text-amber-600 mb-2">2M+</div>
-              <div className="text-gray-600">Sq Ft Designed</div>
-            </div>
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <div className="text-4xl font-bold text-amber-600 mb-2">98%</div>
-              <div className="text-gray-600">Client Satisfaction</div>
-            </div>
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <div className="text-4xl font-bold text-amber-600 mb-2">50+</div>
-              <div className="text-gray-600">Awards Won</div>
-            </div>
-          </div>
         </div>
       </section>
 

@@ -80,9 +80,6 @@ export const metadata = {
     description: 'Transform your space with complete interior design solutions and custom furniture manufacturing.',
     images: ['/images/og-home.jpg'],
   },
-  verification: {
-    google: 'your-google-verification-code',
-  },
   alternates: {
     canonical: 'https://savistar.in',
   },

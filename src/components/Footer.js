@@ -16,26 +16,14 @@ export default function Footer() {
       links: [
         { name: 'Interior Design', href: '/interior' },
         { name: 'Custom Furniture', href: '/furniture' },
-        { name: 'Turnkey Projects', href: '/interior' },
-        { name: 'Expert Consultation', href: '/interior' }
+        { name: 'Portfolio', href: '/portfolio' }
       ]
     },
     {
       title: 'Company',
       links: [
         { name: 'About Us', href: '/about' },
-        { name: 'Portfolio', href: '/portfolio' },
-        { name: 'Process', href: '/about' },
-        { name: 'Careers', href: '/contact' }
-      ]
-    },
-    {
-      title: 'Resources',
-      links: [
-        { name: 'Blog', href: '/contact' },
-        { name: 'Design Tips', href: '/contact' },
-        { name: 'Maintenance', href: '/contact' },
-        { name: 'Warranty', href: '/contact' }
+        { name: 'Contact', href: '/contact' }
       ]
     }
   ]
@@ -50,7 +38,7 @@ export default function Footer() {
     <footer className="bg-gray-900 text-white">
       {/* Main Footer Content */}
       <div className="container-custom py-16">
-        <div className="grid lg:grid-cols-5 gap-8">
+        <div className="grid lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center space-x-3">
@@ -150,9 +138,6 @@ export default function Footer() {
               </Link>
               <Link href="/terms" className="hover:text-[var(--color-accent-DEFAULT)] transition-colors">
                 Terms of Service
-              </Link>
-              <Link href="/sitemap" className="hover:text-[var(--color-accent-DEFAULT)] transition-colors">
-                Sitemap
               </Link>
             </div>
           </div>
