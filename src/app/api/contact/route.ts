@@ -1,8 +1,9 @@
 // src/app/api/contact/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
-import type SMTPTransport from 'nodemailer/lib/smtp-transport';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,55 +13,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Diagnostics: confirm env vars are actually present in this environment
-    console.log('[contact] GMAIL_EMAIL set:', !!process.env.GMAIL_EMAIL);
-    console.log('[contact] GMAIL_APP_PASSWORD set:', !!process.env.GMAIL_APP_PASSWORD);
-
-    // Try the two Gmail SMTP ports. If one is blocked/timing out we learn which.
-    const ports: { port: number; secure: boolean }[] = [
-      { port: 465, secure: true },  // SSL
-      { port: 587, secure: false }, // STARTTLS
-    ];
-
-    let transporter: nodemailer.Transporter | null = null;
-    let lastError: unknown = null;
-
-    for (const { port, secure } of ports) {
-      const t = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port,
-        secure,
-        auth: {
-          user: process.env.GMAIL_EMAIL,
-          pass: process.env.GMAIL_APP_PASSWORD,
-        },
-        family: 4, // force IPv4 — Render's IPv6 route to Gmail SMTP hangs (ETIMEDOUT)
-        connectionTimeout: 10000,
-      } as SMTPTransport.Options);
-
-      const started = Date.now();
-      try {
-        console.log(`[contact] verifying SMTP connection on port ${port} (secure=${secure})...`);
-        await t.verify();
-        console.log(`[contact] SMTP connection OK on port ${port} in ${Date.now() - started}ms`);
-        transporter = t;
-        break;
-      } catch (err) {
-        const e = err as { code?: string; command?: string; message?: string };
-        console.error(`[contact] port ${port} failed after ${Date.now() - started}ms:`, e.code, e.command, e.message);
-        lastError = err;
-      }
-    }
-
-    if (!transporter) {
-      throw lastError ?? new Error('Could not connect to SMTP on any port');
-    }
-
-    // Set up email data
-    const mailOptions = {
-      from: `"Contact Form" <${process.env.GMAIL_EMAIL}>`, // Sender address (must be your Gmail)
-      to: process.env.GMAIL_EMAIL, // Receiver address (your Gmail where you want to receive messages)
-      replyTo: email, // Set the reply-to to the user's email
+    const { data, error } = await resend.emails.send({
+      from: 'Contact Form <onboarding@resend.dev>', // Resend's test sender — no domain needed
+      to: process.env.CONTACT_TO_EMAIL || 'savistarinterior@gmail.com',
+      replyTo: email, // hit reply to respond directly to the visitor
       subject: `New Project Inquiry from ${name}`,
       html: `
         <h1>New Project Inquiry</h1>
@@ -74,15 +30,18 @@ export async function POST(req: NextRequest) {
         <h2>Project Details:</h2>
         <p>${message.replace(/\n/g, '<br>')}</p>
       `,
-    };
+    });
 
-    // Send mail with defined transport object
-    await transporter.sendMail(mailOptions);
+    if (error) {
+      console.error('[contact] Resend error:', error);
+      return NextResponse.json({ error: 'Failed to send message.' }, { status: 500 });
+    }
 
+    console.log('[contact] sent, id:', data?.id);
     return NextResponse.json({ message: 'Message sent successfully!' }, { status: 200 });
 
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('[contact] Error sending email:', error);
     return NextResponse.json({ error: 'Failed to send message.' }, { status: 500 });
   }
 }
