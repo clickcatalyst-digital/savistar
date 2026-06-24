@@ -12,18 +12,49 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Create a transporter object using the default SMTP transport
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.GMAIL_EMAIL,
-        pass: process.env.GMAIL_APP_PASSWORD,
-      },
-      family: 4, // force IPv4 — Render's IPv6 route to Gmail SMTP hangs (ETIMEDOUT)
-      connectionTimeout: 10000,
-    } as SMTPTransport.Options);
+    // Diagnostics: confirm env vars are actually present in this environment
+    console.log('[contact] GMAIL_EMAIL set:', !!process.env.GMAIL_EMAIL);
+    console.log('[contact] GMAIL_APP_PASSWORD set:', !!process.env.GMAIL_APP_PASSWORD);
+
+    // Try the two Gmail SMTP ports. If one is blocked/timing out we learn which.
+    const ports: { port: number; secure: boolean }[] = [
+      { port: 465, secure: true },  // SSL
+      { port: 587, secure: false }, // STARTTLS
+    ];
+
+    let transporter: nodemailer.Transporter | null = null;
+    let lastError: unknown = null;
+
+    for (const { port, secure } of ports) {
+      const t = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port,
+        secure,
+        auth: {
+          user: process.env.GMAIL_EMAIL,
+          pass: process.env.GMAIL_APP_PASSWORD,
+        },
+        family: 4, // force IPv4 — Render's IPv6 route to Gmail SMTP hangs (ETIMEDOUT)
+        connectionTimeout: 10000,
+      } as SMTPTransport.Options);
+
+      const started = Date.now();
+      try {
+        console.log(`[contact] verifying SMTP connection on port ${port} (secure=${secure})...`);
+        await t.verify();
+        console.log(`[contact] SMTP connection OK on port ${port} in ${Date.now() - started}ms`);
+        transporter = t;
+        break;
+      } catch (err) {
+        const e = err as { code?: string; command?: string; message?: string };
+        console.error(`[contact] port ${port} failed after ${Date.now() - started}ms:`, e.code, e.command, e.message);
+        lastError = err;
+      }
+    }
+
+    if (!transporter) {
+      throw lastError ?? new Error('Could not connect to SMTP on any port');
+    }
 
     // Set up email data
     const mailOptions = {
