@@ -3,8 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
-    formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 31536000, // cache optimized images for a year
+    // Sources are already optimized webp at sane sizes, so skip Next's on-demand
+    // optimizer entirely. AVIF/webp re-encoding of large images is very memory-heavy
+    // and was OOM-ing the Render instance. Serving the static webp directly is cheap.
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

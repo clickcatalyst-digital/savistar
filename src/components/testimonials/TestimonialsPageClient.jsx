@@ -46,6 +46,34 @@ function Stars() {
   )
 }
 
+function Card({ t, dup }) {
+  return (
+    <div
+      aria-hidden={dup || undefined}
+      className={`${dup ? 'marquee-dup ' : ''}mb-6 bg-white border border-gray-100 rounded-2xl p-6 shadow-sm`}
+    >
+      <div className="flex items-center justify-between">
+        <Stars />
+        <Quote className="w-7 h-7 text-[var(--color-accent-light)]" />
+      </div>
+      <p className="text-gray-700 leading-relaxed mb-5">{t.content}</p>
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm font-semibold">
+          {initials(t.name)}
+        </div>
+        <div>
+          <p className="font-semibold text-gray-900 text-sm">{t.name}</p>
+          <p className="text-xs text-[var(--color-accent-DEFAULT)]">{t.context}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Distribute across 3 columns; middle drifts up, sides drift down.
+const columns = [[], [], []]
+testimonials.forEach((t, i) => columns[i % 3].push(t))
+
 export default function TestimonialsPageClient() {
   return (
     <>
@@ -72,31 +100,28 @@ export default function TestimonialsPageClient() {
         </div>
       </section>
 
-      {/* Reviews — masonry columns */}
+      {/* Reviews */}
       <section className="section-padding bg-white">
         <div className="container-custom">
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
-            {testimonials.map((t) => (
-              <div
-                key={t.name + t.content.slice(0, 12)}
-                className="break-inside-avoid mb-6 bg-white border border-gray-100 rounded-2xl p-6 shadow-sm"
-              >
-                <div className="flex items-center justify-between">
-                  <Stars />
-                  <Quote className="w-7 h-7 text-[var(--color-accent-light)]" />
-                </div>
-                <p className="text-gray-700 leading-relaxed mb-5">{t.content}</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm font-semibold">
-                    {initials(t.name)}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900 text-sm">{t.name}</p>
-                    <p className="text-xs text-[var(--color-accent-DEFAULT)]">{t.context}</p>
+          {/* Desktop: three slow, opposing marquee columns (middle up, sides down) */}
+          <div className="relative hidden md:block">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-24 z-10 bg-gradient-to-b from-white to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 z-10 bg-gradient-to-t from-white to-transparent" />
+            <div className="grid grid-cols-3 gap-6 h-[820px] overflow-hidden">
+              {columns.map((col, ci) => (
+                <div key={ci} className="overflow-hidden">
+                  <div className={`marquee-track ${ci === 1 ? 'marquee-up' : 'marquee-down'}`}>
+                    {col.map((t, i) => <Card key={i} t={t} />)}
+                    {col.map((t, i) => <Card key={`dup-${i}`} t={t} dup />)}
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile: simple static stack */}
+          <div className="md:hidden">
+            {testimonials.map((t, i) => <Card key={i} t={t} />)}
           </div>
 
           <div className="text-center mt-12">

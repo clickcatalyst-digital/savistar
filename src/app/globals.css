@@ -134,6 +134,38 @@
   }
 }
 
+/* Vertical marquee for the testimonials wall.
+   Tracks render their content twice; translating by -50% loops seamlessly. */
+@keyframes marquee-up {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+@keyframes marquee-down {
+  from { transform: translateY(-50%); }
+  to { transform: translateY(0); }
+}
+.marquee-track {
+  will-change: transform;
+}
+.marquee-up {
+  animation: marquee-up 90s linear infinite;
+}
+.marquee-down {
+  animation: marquee-down 90s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-up,
+  .marquee-down {
+    animation: none;
+  }
+  .marquee-dup {
+    display: none;
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
