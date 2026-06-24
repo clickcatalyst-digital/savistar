@@ -62,14 +62,14 @@ export default function AnimatedFoundersSection() {
               f.dark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'
             }`}
           >
-            <div className="flex items-start gap-6 mb-6">
-              <div className="w-24 h-24 lg:w-28 lg:h-28 rounded-2xl overflow-hidden flex-shrink-0 ring-1 ring-black/5">
+            <div className="flex flex-col sm:flex-row sm:items-start gap-6 mb-6">
+              <div className="w-36 h-44 sm:w-40 sm:h-52 lg:w-48 lg:h-60 rounded-2xl overflow-hidden flex-shrink-0 ring-1 ring-black/5">
                 <Image
                   src={f.image}
                   alt={`${f.name} — ${f.role}`}
-                  width={144}
-                  height={144}
-                  className="object-cover w-full h-full"
+                  width={288}
+                  height={360}
+                  className="object-cover object-top w-full h-full"
                 />
               </div>
               <div className="flex-1 min-w-0">

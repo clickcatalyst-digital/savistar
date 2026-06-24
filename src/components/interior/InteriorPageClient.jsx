@@ -89,14 +89,15 @@ export default function InteriorDesignPage() {
     <>
       {/* Hero Section */}
       <section className="relative min-h-[100vh] min-h-[100svh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-[var(--color-primary-gradient-end)]">
-          <div 
-            className="absolute inset-0 bg-cover bg-center opacity-30"
-            style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&h=1080&fit=crop&crop=center)'
-            }}
-          />
-        </div>
+        <Image
+          src="/images/pages/interior_cover_1.webp"
+          alt="Interior design by Savistar"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/85 via-gray-900/75 to-[var(--color-primary-gradient-end)]/85" />
         
         <div className="relative z-10 container-custom text-center text-white pt-20">
           <div className="fade-in max-w-4xl mx-auto">
@@ -111,7 +112,7 @@ export default function InteriorDesignPage() {
             </div>
             <h1 className="heading-xl mb-6">
               Interior Design
-              <span className="text-gradient block">That Tells Your Story</span>
+              <span className="block">That Tells Your Story</span>
             </h1>
             <p className="text-lg sm:text-xl lg:text-2xl mb-6 sm:mb-8 leading-relaxed">
               From concept to completion, we create spaces that perfectly balance aesthetics, 
@@ -199,7 +200,7 @@ export default function InteriorDesignPage() {
                 </div>
                     <div className="relative aspect-[3/4] overflow-hidden rounded-2xl shadow-2xl">
                         <Image 
-                            src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=800&fit=crop&crop=center"
+                            src="/images/pages/interior_design_2.webp"
                             alt="Interior design process"
                             fill
                             className="object-cover"
@@ -248,13 +249,13 @@ export default function InteriorDesignPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding bg-gradient-to-r from-[var(--color-primary-DEFAULT)] to-[var(--color-accent-DEFAULT)] text-white">
+      <section className="section-padding bg-[var(--color-primary-light)] border-t border-black/5">
         <div className="container-custom text-center">
           <h2 className="heading-lg mb-6">Ready to Transform Your Space?</h2>
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl mb-8 max-w-2xl mx-auto text-gray-600">
             Let&rsquo;sdiscuss your interior design project and create a space that truly reflects your vision and lifestyle.
           </p>
-          <Link href="/contact" className="btn-primary bg-white text-gray-900 hover:bg-gray-100 text-lg px-10 py-4"
+          <Link href="/contact" className="btn-accent text-lg px-10 py-4"
             onClick={() => sendGAEvent(GTM_EVENTS.generateLead.action, { // <-- TRACKING
                 event_category: GTM_EVENTS.generateLead.category,
                 event_label: 'Interior - CTA - Get Free Design Consultation',

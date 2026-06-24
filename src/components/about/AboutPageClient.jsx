@@ -88,13 +88,20 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-gray-900 to-[var(--color-primary-gradient-end)] text-white overflow-hidden">
-        <div className="container-custom pt-16">
+      <section className="relative min-h-screen flex items-center py-20 bg-gradient-to-br from-gray-900 to-[var(--color-primary-gradient-end)] text-white overflow-hidden">
+        <Image
+          src="/images/pages/about.webp"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover opacity-15 pointer-events-none"
+        />
+        <div className="container-custom pt-16 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="fade-in">
               <h1 className="heading-xl mb-6">
                 Our Story of
-                <span className="text-gradient block">Design Excellence</span>
+                <span className="block">Design Excellence</span>
               </h1>
               <p className="text-lg sm:text-xl mb-6 sm:mb-8 leading-relaxed">
                 From our base in India, we create exceptional spaces and handcrafted furniture 
@@ -112,7 +119,7 @@ export default function AboutPage() {
             </div>
               <div className="relative aspect-square overflow-hidden rounded-2xl shadow-2xl">
                     <Image 
-                        src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=600&fit=crop&crop=center"
+                        src="/images/pages/about.webp"
                         alt="Our design studio"
                         fill
                         className="object-cover"
@@ -204,15 +211,15 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding bg-gradient-to-r from-[var(--color-primary-DEFAULT)] to-[var(--color-accent-DEFAULT)] text-white">
+      <section className="section-padding bg-[var(--color-primary-light)] border-t border-black/5">
         <div className="container-custom text-center">
           <h2 className="heading-lg mb-6">Ready to Start Your Project?</h2>
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Let&rsquo;swork together to create a space that reflects your style and meets your needs. 
+          <p className="text-lg sm:text-xl mb-8 max-w-2xl mx-auto text-gray-600">
+            Let&rsquo;swork together to create a space that reflects your style and meets your needs.
             Contact us today for an expert consultation.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row sm:gap-4 items-center justify-center">
-            <Link href="/contact" className="btn-primary bg-white text-gray-900 hover:bg-gray-100 text-lg px-10 py-4"
+            <Link href="/contact" className="btn-accent text-lg px-10 py-4"
               onClick={() => sendGAEvent(GTM_EVENTS.generateLead.action, { // <-- TRACKING
                     event_category: GTM_EVENTS.generateLead.category,
                     event_label: 'About - CTA - Get Consultation',
@@ -220,7 +227,7 @@ export default function AboutPage() {
               Get Consultation
               <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
-            <Link href="/portfolio" className="btn-secondary text-lg px-10 py-4 text-white border-white hover:bg-white hover:text-gray-900"
+            <Link href="/portfolio" className="btn-secondary text-lg px-10 py-4"
               onClick={() => sendGAEvent(GTM_EVENTS.viewPortfolio.action, { // <-- TRACKING
                     event_category: GTM_EVENTS.viewPortfolio.category,
                     event_label: 'About - CTA - View Our Work',

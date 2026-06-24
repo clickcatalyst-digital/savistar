@@ -2,17 +2,58 @@
 
 /* src/app/globals.css */
 
+/*
+  Strict 6-color palette — no other colors anywhere.
+  accent #D92D20 · ink #0A0A0A · paper #F2F0EB
+  grey-dark #44423D · grey-mid #8C8A83 · grey-light #E2DFD7
+
+  @theme remaps every Tailwind utility family (gray/white/black/green/red/emerald)
+  into the palette, so existing utility classes resolve to allowed colors.
+*/
+@theme {
+  /* paper replaces white, ink replaces black */
+  --color-white: #f2f0eb;
+  --color-black: #0a0a0a;
+
+  /* gray scale collapsed into paper / 3 greys / ink */
+  --color-gray-50: #f2f0eb;
+  --color-gray-100: #e2dfd7;
+  --color-gray-200: #e2dfd7;
+  --color-gray-300: #e2dfd7;
+  --color-gray-400: #8c8a83;
+  --color-gray-500: #8c8a83;
+  --color-gray-600: #44423d;
+  --color-gray-700: #44423d;
+  --color-gray-800: #0a0a0a;
+  --color-gray-900: #0a0a0a;
+  --color-gray-950: #0a0a0a;
+
+  /* status colors fold into the palette (greens go neutral, reds become the accent) */
+  --color-green-100: #e2dfd7;
+  --color-green-500: #44423d;
+  --color-green-800: #0a0a0a;
+  --color-emerald-400: #e2dfd7;
+  --color-red-100: #e2dfd7;
+  --color-red-300: #d92d20;
+  --color-red-400: #d92d20;
+  --color-red-500: #d92d20;
+  --color-red-800: #d92d20;
+}
+
 :root {
 
-  /* Signature Minimal — logo-matched: graphite/silver + brick-red accent */
-  --color-primary-light: #f3f4f6; /* Light grey surfaces */
-  --color-primary-DEFAULT: #374151; /* Graphite — buttons, links, icon gradients */
-  --color-primary-dark: #1f2937; /* Darker graphite — hover / gradient mid */
-  --color-primary-gradient-end: #111827; /* Near-black hero gradient end */
+  /* Accent design — neutral base + single red accent */
+  --color-paper: #f2f0eb;
+  --color-ink: #0a0a0a;
 
-  --color-accent-light: #fbeae7; /* Light red tint — tag backgrounds */
-  --color-accent-DEFAULT: #b23a2e; /* Brand red — active nav, stars, highlights */
-  --color-accent-dark: #8f2d24; /* Darker red — hover */
+  --color-primary-light: #e2dfd7; /* grey-light — borders / light surfaces */
+  --color-primary-DEFAULT: #0a0a0a; /* ink — buttons, links, icon fills */
+  --color-primary-dark: #44423d; /* grey-dark — button hover */
+  --color-primary-gradient-end: #0a0a0a; /* ink — hero gradient end */
+
+  --color-accent-light: #e2dfd7; /* grey-light — tag backgrounds */
+  --color-accent-DEFAULT: #d92d20; /* the one red accent */
+  --color-accent-dark: #d92d20; /* single red; hover handled via opacity */
 }
 
 @layer base {
@@ -36,6 +77,10 @@
   .btn-secondary {
     @apply border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 hover:shadow-lg;
   }
+
+  .btn-accent {
+    @apply bg-[var(--color-accent-DEFAULT)] text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 inline-flex items-center justify-center hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-DEFAULT)] focus:ring-offset-2;
+  }
   
   .section-padding {
     @apply py-16 lg:py-24;
@@ -46,24 +91,20 @@
   }
   
   .heading-xl {
-    @apply text-4xl lg:text-6xl font-semibold leading-[1.1] tracking-tight;
+    @apply text-4xl lg:text-6xl font-semibold leading-[1.2] tracking-tight pb-[0.08em];
     font-family: var(--font-serif);
   }
 
   .heading-lg {
-    @apply text-3xl lg:text-5xl font-semibold leading-[1.15] tracking-tight;
+    @apply text-3xl lg:text-5xl font-semibold leading-[1.2] tracking-tight pb-[0.08em];
     font-family: var(--font-serif);
   }
 
   .heading-md {
-    @apply text-2xl lg:text-4xl font-semibold leading-tight tracking-tight;
+    @apply text-2xl lg:text-4xl font-semibold leading-[1.2] tracking-tight pb-[0.05em];
     font-family: var(--font-serif);
   }
-  
-  .text-gradient {
-    @apply bg-gradient-to-r from-white to-[#e7a79f] bg-clip-text text-transparent;
-  }
-  
+
   .fade-in {
     animation: fadeIn 0.8s ease-in-out;
   }
@@ -99,7 +140,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--color-paper);
 }
 
 ::-webkit-scrollbar-thumb {

@@ -14,7 +14,7 @@ const services = [
     description: 'Complete interior design solutions for residential and commercial spaces',
     features: ['Turnkey Projects', 'Material Selection'],
     href: '/interior',
-    image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop&crop=center'
+    image: '/images/pages/interior_cover_1.webp'
   },
   {
     title: 'Custom Furniture',
@@ -22,7 +22,7 @@ const services = [
     description: 'Bespoke furniture manufacturing with premium materials and craftsmanship',
     features: ['Custom Design', 'Premium Materials', 'Expert Craftsmanship', 'Installation'],
     href: '/furniture',
-    image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=600&fit=crop&crop=center'
+    image: '/images/pages/furn_1.webp'
   }
 ]
 
@@ -82,7 +82,7 @@ export default function HomePage() {
           <div className="fade-in">
             <h1 className="heading-xl mb-6">
               Transform Your Space with
-              <span className="text-gradient block">Complete Design Solutions</span>
+              <span className="block">Complete Design Solutions</span>
             </h1>
             <p className="text-lg sm:text-xl lg:text-2xl mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed">
               From visionary interior design to custom furniture manufacturing, 
@@ -236,10 +236,10 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding bg-gray-900 text-white">
+      <section className="section-padding bg-[var(--color-primary-light)] border-t border-black/5">
         <div className="container-custom text-center">
           <h2 className="heading-lg mb-6">Ready to Transform Your Space?</h2>
-          <p className="text-xl mb-8 max-w-3xl mx-auto text-gray-300">
+          <p className="text-lg sm:text-xl mb-8 max-w-2xl mx-auto text-gray-600">
             Let&rsquo;sdiscuss your project and bring your vision to life with our integrated design and manufacturing expertise.
           </p>
           
@@ -267,7 +267,7 @@ export default function HomePage() {
           </div>
 
           <div className="mt-8">
-            <Link href="/contact" className="w-full sm:w-auto btn-primary text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4"
+            <Link href="/contact" className="w-full sm:w-auto btn-accent text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4"
             onClick={() => sendGAEvent(GTM_EVENTS.generateLead.action, { // <-- TRACKING
                 event_category: GTM_EVENTS.generateLead.category,
                 event_label: 'Homepage - CTA - Get Consultation',

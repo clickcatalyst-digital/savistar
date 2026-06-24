@@ -265,15 +265,15 @@ export default function PortfolioPage({ projects = [] }) {
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding bg-gradient-to-r from-[var(--color-primary-DEFAULT)] to-[var(--color-accent-DEFAULT)] text-white">
+      <section className="section-padding bg-[var(--color-primary-light)] border-t border-black/5">
         <div className="container-custom text-center">
           <h2 className="heading-lg mb-6">Ready to Create Your Dream Space?</h2>
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Let&rsquo;sdiscuss your project and explore how we can bring your vision to life with our 
+          <p className="text-lg sm:text-xl mb-8 max-w-2xl mx-auto text-gray-600">
+            Let&rsquo;sdiscuss your project and explore how we can bring your vision to life with our
             integrated design and manufacturing expertise.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row sm:gap-4 items-center justify-center">
-            <Link href="/contact" className="btn-primary bg-white text-gray-900 hover:bg-gray-100 text-lg px-10 py-4"
+            <Link href="/contact" className="btn-accent text-lg px-10 py-4"
               onClick={() => sendGAEvent(GTM_EVENTS.generateLead.action, { // <-- TRACKING
                     event_category: GTM_EVENTS.generateLead.category,
                     event_label: 'Portfolio - CTA - Start Your Project',
@@ -281,7 +281,7 @@ export default function PortfolioPage({ projects = [] }) {
               Start Your Project
               <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
-            <Link href="/about" className="btn-secondary text-lg px-10 py-4 text-white border-white hover:bg-white hover:text-gray-900"
+            <Link href="/about" className="btn-secondary text-lg px-10 py-4"
               onClick={() => sendGAEvent(GTM_EVENTS.learnMore.action, { // <-- TRACKING
                     event_category: GTM_EVENTS.learnMore.category,
                     event_label: 'Portfolio - CTA - Learn More About Us',

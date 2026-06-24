@@ -56,7 +56,7 @@ export default function TestimonialsPageClient() {
       <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-[var(--color-primary-gradient-end)] text-white pt-32 pb-20 lg:pt-40 lg:pb-28">
         <div className="container-custom text-center">
           <motion.h1
-            className="heading-xl text-gradient mb-6"
+            className="heading-xl mb-6"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -113,13 +113,13 @@ export default function TestimonialsPageClient() {
       </section>
 
       {/* CTA */}
-      <section className="bg-gray-900 text-white section-padding">
+      <section className="bg-[var(--color-primary-light)] border-t border-black/5 section-padding">
         <div className="container-custom text-center">
           <h2 className="heading-md mb-4">Ready to start your project?</h2>
-          <p className="text-gray-300 mb-8 max-w-xl mx-auto">
+          <p className="text-gray-600 mb-8 max-w-xl mx-auto">
             Join the clients who trusted Savistar to design spaces they love.
           </p>
-          <Link href="/contact" className="btn-primary">
+          <Link href="/contact" className="btn-accent">
             <Calendar className="w-4 h-4 mr-2" />
             Consult Now
           </Link>
