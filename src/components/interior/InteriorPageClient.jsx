@@ -71,16 +71,14 @@ const process = [
 
 const testimonials = [
   {
-    name: 'Savita Ben',
+    name: 'Kamaxi Rao',
     project: 'Modern Family Home',
-    content: 'Savistar completely transformed our outdated home into a modern, functional space. Their attention to detail and ability to understand our family\&rsquo;sneeds was exceptional.',
-    image: '/images/tests/savita.webp'
+    content: 'A fantastic experience from the initial consultation to the final execution. The team truly understood my vision and brought it to life even better than I imagined. Quality, creativity, and timely delivery were outstanding.',
   },
   {
-    name: 'Nitin Patel',
-    project: 'Corporate Office Renovation',
-    content: 'The team redesigned our office space to be more collaborative and inspiring. Employee satisfaction has increased significantly since the renovation.',
-    image: '/images/tests/nitin.webp'
+    name: 'Mukesh Parmar',
+    project: 'Corporate Office',
+    content: 'Co-founded by two incredibly talented women, their years of work clearly reflect in the quality and thoughtfulness. They did an exemplary job with my office — from understanding the requirements to executing every detail with precision.',
   }
 ]
 
@@ -228,18 +226,12 @@ export default function InteriorDesignPage() {
                   {testimonial.content}
                 </p>
                 <div className="flex items-center">
-                    <div className="relative w-16 h-16 rounded-full overflow-hidden mr-4 flex-shrink-0">
-                        <Image 
-                            src={testimonial.image}
-                            alt={testimonial.name}
-                            fill
-                            className="object-cover"
-                            sizes="64px"
-                        />
+                    <div className="w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center font-semibold mr-4 flex-shrink-0">
+                        {testimonial.name.split(' ').map((n) => n[0]).slice(0, 2).join('')}
                     </div>
                   <div>
                     <div className="font-semibold text-gray-900 text-lg">{testimonial.name}</div>
-                    <div className="text-[var(--color-primary-DEFAULT)]">{testimonial.project}</div>
+                    <div className="text-[var(--color-accent-DEFAULT)]">{testimonial.project}</div>
                   </div>
                 </div>
               </div>

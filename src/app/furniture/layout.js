@@ -126,7 +126,7 @@ const jsonLd = [
     name: 'Saag Furniture Manufacturing',
     alternateName: 'Saag Custom Furniture',
     url: 'https://savistar.in/furniture',
-    logo: 'https://savistar.in/images/saag-logo.png',
+    logo: 'https://savistar.in/images/saag.webp',
     description: 'Premium custom furniture manufacturing with traditional craftsmanship and modern precision',
     foundingDate: '2023',
     parentOrganization: {
@@ -238,6 +238,17 @@ export default function FurnitureLayout({ children }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://savistar.in/' },
+            { '@type': 'ListItem', position: 2, name: 'Furniture', item: 'https://savistar.in/furniture' },
+          ],
+        }) }}
       />
       {children}
     </>

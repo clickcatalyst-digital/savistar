@@ -28,21 +28,21 @@ const services = [
 
 const testimonials = [
   {
-    name: 'Saloni Dave',
-    role: 'Homeowner',
-    content: 'Savistar transformed our home beautifully. The custom furniture from Saag perfectly complemented their design vision.',
+    name: 'Paridhi Purohit',
+    role: 'Home interior',
+    content: 'Had a really good experience with Sachi and Haripriya. They understood our style perfectly and made the whole process smooth and stress-free. Loved the final result! Highly recommend.',
     rating: 5
   },
   {
-    name: 'Sunil Parekh',
-    role: 'Business Owner',
-    content: 'Outstanding commercial design work. The integrated approach with custom furniture made our office truly unique.',
+    name: 'Jigar Desai',
+    role: 'Custom furniture',
+    content: 'We got our solid wood furniture done through Savistar, and it was a great experience end to end. Transparency in cost, materials, and workmanship made the whole journey very satisfying.',
     rating: 5
   },
   {
-    name: 'Manish Goyal',
-    role: 'Interior Designer',
-    content: 'Professional collaboration at its finest. Their attention to detail and quality craftsmanship is unmatched.',
+    name: 'Rutvij Pathak',
+    role: 'Home renovation',
+    content: 'A complete home renovation with spectacular results — an incredible eye for detail, delivered on schedule and within budget. If you want a firm that actually listens to your vision, Savistar is the way to go.',
     rating: 5
   }
 ]

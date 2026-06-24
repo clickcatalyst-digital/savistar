@@ -139,7 +139,7 @@ const jsonLd = [
     name: 'Savistar Interior Design Services',
     alternateName: 'Professional Interior Design Company',
     url: 'https://savistar.in/interior',
-    logo: 'https://savistar.in/images/logo.png',
+    logo: 'https://savistar.in/images/sav-logo.webp',
     description: 'Professional interior design services for residential and commercial spaces with 3D visualization and turnkey project management',
     provider: {
       '@type': 'Organization',
@@ -234,7 +234,7 @@ const jsonLd = [
         {
           '@type': 'ListItem',
           position: 2,
-          name: 'Interior Design Services',
+          name: 'Designs',
           item: 'https://savistar.in/interior'
         }
       ]

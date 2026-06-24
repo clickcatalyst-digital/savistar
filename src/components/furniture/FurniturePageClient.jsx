@@ -166,17 +166,6 @@ export default function FurniturePage() {
         </div>
       </section>
 
-      {/* Showcase Image */}
-      <section className="relative w-full aspect-[16/9] sm:aspect-[21/9] overflow-hidden">
-        <Image
-          src="/images/pages/furn_2.webp"
-          alt="SAAG furniture craftsmanship"
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-      </section>
-
       {/* Capabilities Section */}
       <section className="section-padding">
         <div className="container-custom">

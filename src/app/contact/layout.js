@@ -110,7 +110,7 @@ const jsonLd = {
     '@type': 'Organization',
     name: 'Savistar',
     url: 'https://savistar.in',
-    logo: 'https://savistar.in/images/logo.png',
+    logo: 'https://savistar.in/images/sav-logo.webp',
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'E-108/2, GIDC Rd, Sector 26',
@@ -181,6 +181,17 @@ export default function ContactLayout({ children }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://savistar.in/' },
+            { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://savistar.in/contact' },
+          ],
+        }) }}
       />
       {children}
     </>

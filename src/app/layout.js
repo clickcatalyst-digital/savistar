@@ -3,6 +3,7 @@
 import './globals.css'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import PostHogProvider from '../components/PostHogProvider'
 import { Inter, Fraunces } from 'next/font/google'
 import Script from "next/script";
 
@@ -84,55 +85,104 @@ export const metadata = {
   alternates: {
     canonical: 'https://savistar.in',
   },
+  verification: {
+    google: 'zhNBFrGM6FDaS99J9zWmvEHwPSZx0ssxm8ybDwnr-6k',
+  },
 }
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Savistar',
-  url: 'https://savistar.in',
-  logo: 'https://savistar.in/images/logo.png',
-  description: 'Premium interior design and custom furniture manufacturing company founded by CEPT graduates',
-  foundingDate: '2020',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'E-108/2, GIDC Rd, Sector 26',
-    addressLocality: 'Gandhinagar',
-    addressRegion: 'Gujarat',
-    postalCode: '382028',
-    addressCountry: 'IN'
-  },
-  contactPoint: {
-    '@type': 'ContactPoint',
-    telephone: '+91-903-343-4098',
-    contactType: 'customer service',
-    email: 'savistarinterior@gmail.com'
-  },
-  sameAs: [
-    'https://www.facebook.com/savistar.savistar.9',
-    'https://www.instagram.com/savistar_interior/',
-    'https://www.linkedin.com/company/savistar/'
-  ],
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'Design Services',
-    itemListElement: [
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Interior Design Services'
-        }
+  '@graph': [
+    {
+      '@type': ['Organization', 'LocalBusiness'],
+      '@id': 'https://savistar.in/#organization',
+      name: 'Savistar',
+      alternateName: ['SAAG', 'Savistar Interior Design', 'SAAG Furniture'],
+      url: 'https://savistar.in',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://savistar.in/images/sav-logo.webp',
+        width: 200,
+        height: 100,
       },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service', 
-          name: 'Custom Furniture Manufacturing'
-        }
-      }
-    ]
-  }
+      image: 'https://savistar.in/images/og-home.jpg',
+      description: 'Premium interior design and custom furniture manufacturing studio in Gandhinagar, India, founded by CEPT graduates. Turnkey residential and commercial interiors and bespoke solid-wood furniture.',
+      foundingDate: '2020',
+      telephone: '+91-903-343-4098',
+      email: 'savistarinterior@gmail.com',
+      priceRange: '$$',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'E-108/2, GIDC Rd, Sector 26',
+        addressLocality: 'Gandhinagar',
+        addressRegion: 'Gujarat',
+        postalCode: '382028',
+        addressCountry: 'IN',
+      },
+      areaServed: { '@type': 'Country', name: 'India' },
+      founder: [
+        { '@id': 'https://savistar.in/#sachi' },
+        { '@id': 'https://savistar.in/#haripriya' },
+      ],
+      subOrganization: { '@id': 'https://savistar.in/#saag' },
+      brand: { '@id': 'https://savistar.in/#saag' },
+      knowsAbout: ['Interior Design', 'Custom Furniture Manufacturing', 'Residential Design', 'Commercial Design', 'Turnkey Projects'],
+      sameAs: [
+        'https://www.facebook.com/savistar.savistar.9',
+        'https://www.instagram.com/savistar_interior/',
+        'https://www.linkedin.com/company/savistar/',
+        'https://share.google/KEJBa8c7rFnA0Lbp1',
+      ],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Design Services',
+        itemListElement: [
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Interior Design Services' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Custom Furniture Manufacturing' } },
+        ],
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://savistar.in/#website',
+      url: 'https://savistar.in',
+      name: 'Savistar',
+      description: 'Interior design and custom furniture in India.',
+      publisher: { '@id': 'https://savistar.in/#organization' },
+      inLanguage: 'en-IN',
+    },
+    {
+      '@type': 'Person',
+      '@id': 'https://savistar.in/#sachi',
+      name: 'Sachi',
+      jobTitle: 'Co-Founder & Creative Director',
+      worksFor: { '@id': 'https://savistar.in/#organization' },
+      alumniOf: 'CEPT University',
+      knowsAbout: ['Interior Design', 'Furniture Design', 'Space Planning', 'Material & Finish Systems'],
+    },
+    {
+      '@type': 'Person',
+      '@id': 'https://savistar.in/#haripriya',
+      name: 'Haripriya',
+      jobTitle: 'Co-Founder & Operations Director',
+      worksFor: { '@id': 'https://savistar.in/#organization' },
+      alumniOf: 'CEPT University',
+      knowsAbout: ['Furniture Manufacturing', 'Quality Control', 'Responsible Sourcing', 'Project Delivery'],
+    },
+    {
+      '@type': ['Organization', 'Brand'],
+      '@id': 'https://savistar.in/#saag',
+      name: 'SAAG',
+      alternateName: 'SAAG Furniture',
+      url: 'https://savistar.in/furniture',
+      description: 'SAAG is Savistar\'s custom furniture manufacturing brand — bespoke solid-wood furniture made in India with responsible sourcing and documented quality control.',
+      parentOrganization: { '@id': 'https://savistar.in/#organization' },
+      founder: [
+        { '@id': 'https://savistar.in/#sachi' },
+        { '@id': 'https://savistar.in/#haripriya' },
+      ],
+    },
+  ],
 }
 
 export default function RootLayout({ children }) {
@@ -163,11 +213,13 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="antialiased bg-[#F2F0EB] text-[#0A0A0A]">
-        <Header />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        <PostHogProvider>
+          <Header />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+        </PostHogProvider>
       </body>
     </html>
   )

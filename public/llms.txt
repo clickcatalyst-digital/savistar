@@ -1,0 +1,18 @@
+# Savistar
+
+> Savistar is an interior design studio and custom furniture maker (SAAG) based in Gandhinagar, Gujarat, India. Founded in 2020 by CEPT University graduates Sachi and Haripriya, the studio delivers turnkey residential and commercial interiors and bespoke solid-wood furniture, managing the full process from concept to handover in-house.
+
+## Pages
+- [Home](https://savistar.in/): Overview of Savistar interior design and SAAG custom furniture — a complete, integrated design ecosystem.
+- [Designs](https://savistar.in/interior): Interior design services for residential and commercial spaces — space planning, turnkey projects, and material selection.
+- [Furniture](https://savistar.in/furniture): Bespoke furniture manufacturing by SAAG — solid wood, responsible sourcing, kiln drying, and documented quality control.
+- [Portfolio](https://savistar.in/portfolio): Selected interior and furniture projects.
+- [Testimonials](https://savistar.in/testimonials): Reviews from homeowners and businesses.
+- [About](https://savistar.in/about): Studio story, founders, mission, and approach.
+- [Contact](https://savistar.in/contact): Request a free design consultation.
+
+## Contact
+- Phone: +91 90334 34098
+- Email: savistarinterior@gmail.com
+- Address: E-108/2, GIDC Rd, Sector 26, Gandhinagar, Gujarat 382028, India
+- Instagram: https://www.instagram.com/savistar_interior/

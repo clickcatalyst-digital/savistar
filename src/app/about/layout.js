@@ -109,7 +109,7 @@ const jsonLd = {
   url: 'https://savistar.in',
   logo: {
     '@type': 'ImageObject',
-    url: 'https://savistar.in/images/logo.png',
+    url: 'https://savistar.in/images/sav-logo.webp',
     width: 200,
     height: 100
   },
@@ -170,6 +170,17 @@ export default function AboutLayout({ children }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://savistar.in/' },
+            { '@type': 'ListItem', position: 2, name: 'About', item: 'https://savistar.in/about' },
+          ],
+        }) }}
       />
       {children}
     </>
