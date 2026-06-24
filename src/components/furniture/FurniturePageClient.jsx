@@ -249,11 +249,25 @@ export default function FurniturePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {materials.map((material, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-shadow duration-300">
-                <h3 className="text-xl font-bold mb-3 text-[var(--color-primary-DEFAULT)]">{material.name}</h3>
-                <p className="text-gray-600">{material.description}</p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {materials.map((material) => (
+              <div
+                key={material.name}
+                className="group relative aspect-[3/2] rounded-xl overflow-hidden border border-gray-200 bg-[var(--color-primary-light)]"
+              >
+                <Image
+                  src={`/images/materials/${material.name.toLowerCase()}.webp`}
+                  alt={`${material.name} material`}
+                  fill
+                  className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/45 transition-colors duration-500" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <h3 className="text-xl font-semibold text-gray-900 group-hover:text-white transition-colors duration-500">
+                    {material.name}
+                  </h3>
+                </div>
               </div>
             ))}
           </div>
