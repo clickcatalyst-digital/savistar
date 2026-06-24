@@ -13,7 +13,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
-  const darkHeroRoutes = ['/', '/interior', '/furniture', '/portfolio', '/about', '/contact']
+  const darkHeroRoutes = ['/', '/interior', '/furniture', '/portfolio', '/about', '/contact', '/testimonials']
   const solid = isScrolled || !darkHeroRoutes.includes(pathname)
 
   useEffect(() => {
@@ -26,11 +26,11 @@ export default function Header() {
 
   const navigation = [
     { name: 'Home', href: '/' },
-    { name: 'Interior Design', href: '/interior' },
+    { name: 'Designs', href: '/interior' },
     { name: 'Furniture', href: '/furniture' },
     { name: 'Portfolio', href: '/portfolio' },
+    { name: 'Testimonials', href: '/testimonials' },
     { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
   ]
 
   return (

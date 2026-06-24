@@ -54,7 +54,7 @@ export default function AdminDashboard({ projects: initial }) {
       location: form.location || null,
       year: form.year ? Number(form.year) : null,
       description: form.description || null,
-      body: p.body || '',
+      body: form.body || '',
       tags: form.tags ? form.tags.split(',').map((t) => t.trim()).filter(Boolean) : [],
       cover_url: cover,
       images: gallery,
@@ -137,7 +137,7 @@ export default function AdminDashboard({ projects: initial }) {
           <div className="flex items-center gap-4">
             <CldUploadWidget
               signatureEndpoint="/api/cloudinary/sign"
-              options={{ folder: 'savistar-portfolio', multiple: false, sources: ['local', 'url'] }}
+              options={{ folder: 'savistar-portfolio', multiple: false, sources: ['local', 'url'], clientAllowedFormats: ['png', 'jpg', 'jpeg'], maxFileSize: 10000000 }}
               onSuccess={(result) => setCover(result?.info?.public_id || '')}
             >
               {({ open }) => (
@@ -152,7 +152,7 @@ export default function AdminDashboard({ projects: initial }) {
           <div className="flex items-center gap-4 flex-wrap">
             <CldUploadWidget
               signatureEndpoint="/api/cloudinary/sign"
-              options={{ folder: 'savistar-portfolio', multiple: true, sources: ['local', 'url'] }}
+              options={{ folder: 'savistar-portfolio', multiple: true, sources: ['local', 'url'], clientAllowedFormats: ['png', 'jpg', 'jpeg'], maxFileSize: 10000000 }}
               onSuccess={(result) => { const id = result?.info?.public_id; if (id) setGallery((g) => [...g, id]) }}
             >
               {({ open }) => (
@@ -161,7 +161,19 @@ export default function AdminDashboard({ projects: initial }) {
                 </button>
               )}
             </CldUploadWidget>
-            {gallery.map((g) => <CldImage key={g} src={g} width={48} height={48} crop="fill" alt="" className="rounded object-cover ring-1 ring-white/10" />)}
+            {gallery.map((g) => (
+              <div key={g} className="relative group">
+                <CldImage src={g} width={48} height={48} crop="fill" alt="" className="rounded object-cover ring-1 ring-white/10" />
+                <button
+                  type="button"
+                  onClick={() => setGallery((arr) => arr.filter((x) => x !== g))}
+                  aria-label="Remove image"
+                  className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white text-xs leading-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
           </div>
 
           {status.type === 'error' && <p className="text-red-400 text-sm">{status.msg}</p>}

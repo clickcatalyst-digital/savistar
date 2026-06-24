@@ -14,7 +14,7 @@ export default function Footer() {
     {
       title: 'Services',
       links: [
-        { name: 'Interior Design', href: '/interior' },
+        { name: 'Designs', href: '/interior' },
         { name: 'Custom Furniture', href: '/furniture' },
         { name: 'Portfolio', href: '/portfolio' }
       ]
@@ -23,7 +23,7 @@ export default function Footer() {
       title: 'Company',
       links: [
         { name: 'About Us', href: '/about' },
-        { name: 'Contact', href: '/contact' }
+        { name: 'Testimonials', href: '/testimonials' }
       ]
     }
   ]

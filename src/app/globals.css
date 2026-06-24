@@ -4,15 +4,15 @@
 
 :root {
 
-  /* New Color Palette */
-  --color-primary-light: #e6f2f4; /* Lighter Teal/Blue */
-  --color-primary-DEFAULT: #087990; /* Teal/Blue */
-  --color-primary-dark: #065f74; /* Darker Teal/Blue */
-  --color-primary-gradient-end: #044a5a;
+  /* Signature Minimal — logo-matched: graphite/silver + brick-red accent */
+  --color-primary-light: #f3f4f6; /* Light grey surfaces */
+  --color-primary-DEFAULT: #374151; /* Graphite — buttons, links, icon gradients */
+  --color-primary-dark: #1f2937; /* Darker graphite — hover / gradient mid */
+  --color-primary-gradient-end: #111827; /* Near-black hero gradient end */
 
-  --color-accent-light: #f9f5ed; /* Light Gold */
-  --color-accent-DEFAULT: #c59d5f; /* Gold */
-  --color-accent-dark: #ab8953; /* Darker Gold */
+  --color-accent-light: #fbeae7; /* Light red tint — tag backgrounds */
+  --color-accent-DEFAULT: #b23a2e; /* Brand red — active nav, stars, highlights */
+  --color-accent-dark: #8f2d24; /* Darker red — hover */
 }
 
 @layer base {
@@ -21,8 +21,10 @@
   }
   
   body {
-    font-family: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
   }
 }
 
@@ -44,22 +46,22 @@
   }
   
   .heading-xl {
-    @apply text-4xl lg:text-6xl font-bold leading-tight;
-    font-family: var(--font-playfair);
+    @apply text-4xl lg:text-6xl font-semibold leading-[1.1] tracking-tight;
+    font-family: var(--font-serif);
   }
-  
+
   .heading-lg {
-    @apply text-3xl lg:text-5xl font-bold leading-tight;
-    font-family: var(--font-playfair);
+    @apply text-3xl lg:text-5xl font-semibold leading-[1.15] tracking-tight;
+    font-family: var(--font-serif);
   }
-  
+
   .heading-md {
-    @apply text-2xl lg:text-4xl font-bold leading-tight;
-    font-family: var(--font-playfair);
+    @apply text-2xl lg:text-4xl font-semibold leading-tight tracking-tight;
+    font-family: var(--font-serif);
   }
   
   .text-gradient {
-    @apply bg-gradient-to-r from-[var(--color-primary-DEFAULT)] to-[var(--color-accent-DEFAULT)] bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-white to-[#e7a79f] bg-clip-text text-transparent;
   }
   
   .fade-in {

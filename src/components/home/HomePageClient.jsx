@@ -66,14 +66,17 @@ export default function HomePage() {
     <>
       {/* Hero Section */}
       <section className="relative min-h-[100vh] min-h-[100svh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-[var(--color-primary-gradient-end)]">
-          <div 
-            className="absolute inset-0 bg-cover bg-center opacity-20"
-            style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&h=1080&fit=crop&crop=center)'
-            }}
-          />
-        </div>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/movie/hero_anime.webm" type="video/webm" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/85 via-gray-900/75 to-[var(--color-primary-gradient-end)]/85" />
         
         <div className="relative z-10 container-custom text-center text-white">
           <div className="fade-in">
@@ -127,7 +130,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
             {services.map((service, index) => (
-              <div key={index} className="group bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+              <div key={index} className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:border-gray-300 transition-colors duration-300">
                 <div className="aspect-w-16 aspect-h-10 overflow-hidden">
                   <div className="relative aspect-[5/3] overflow-hidden">
                     <Image 
@@ -176,19 +179,19 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-     <section className="section-padding bg-gradient-to-r from-[var(--color-primary-DEFAULT)] to-[var(--color-accent-DEFAULT)]">
+     <section className="section-padding bg-gray-900">
       <div className="container-custom">
-        <dl className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 text-center text-white">
+        <dl className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 text-center text-white">
           {stats.map((stat, index) => (
             <div key={index} className="slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-              <dd className="text-4xl lg:text-5xl font-bold font-display mb-2">
+              <dd className="heading-md mb-2 text-white">
                 {formatValue(stat)}
               </dd>
-              <dt className="text-[var(--color-accent-light)] text-lg">
+              <dt className="text-[var(--color-accent-DEFAULT)] text-base font-medium">
                 {stat.label ?? ''}
               </dt>
               {stat.help && (
-                <p className="text-white/80 text-sm mt-1">
+                <p className="text-gray-400 text-sm mt-2 leading-relaxed">
                   {stat.help}
                 </p>
               )}
@@ -210,7 +213,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+              <div key={index} className="bg-white rounded-xl p-8 border border-gray-100 hover:border-gray-300 transition-colors duration-300">
                 <div className="flex items-center mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 text-[var(--color-accent-DEFAULT)] fill-current" />

@@ -3,16 +3,17 @@
 import './globals.css'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { Montserrat, Playfair_Display } from 'next/font/google'
+import { Inter, Fraunces } from 'next/font/google'
 import Script from "next/script";
 
 const GTAG_ID = process.env.NEXT_PUBLIC_GTAG_ID;
 
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat' })
-const playfair = Playfair_Display({
-  weight: ['600', '700'],
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
+const fraunces = Fraunces({
+  weight: ['400', '500', '600'],
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-serif',
+  display: 'swap',
 })
 
 export const metadata = {
@@ -136,7 +137,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
       <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}`}
