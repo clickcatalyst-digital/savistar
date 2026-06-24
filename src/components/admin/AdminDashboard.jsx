@@ -3,9 +3,7 @@
 
 import { useState } from 'react'
 import { CldUploadWidget, CldImage } from 'next-cloudinary'
-
-const slugify = (s) =>
-  s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+import { FURNITURE_CATEGORIES, INTERIOR_CATEGORIES, makeProjectSlug } from '../../lib/portfolio'
 
 const empty = { title: '', type: 'interior', category: '', location: '', year: '', description: '', body: '', tags: '' }
 
@@ -18,6 +16,30 @@ export default function AdminDashboard({ projects: initial }) {
   const [gallery, setGallery] = useState([])
   const [status, setStatus] = useState({ type: 'idle', msg: '' })
   const [editingId, setEditingId] = useState(null)
+
+  // Bulk furniture uploader
+  const [bulkCat, setBulkCat] = useState(FURNITURE_CATEGORIES[0].label)
+  const [bulkItems, setBulkItems] = useState([])
+  const [bulkStatus, setBulkStatus] = useState({ type: 'idle', msg: '' })
+
+  const handleBulkCreate = async () => {
+    if (bulkItems.length === 0) return
+    setBulkStatus({ type: 'loading', msg: '' })
+    try {
+      const res = await fetch('/api/projects/bulk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'furniture', category: bulkCat, items: bulkItems }),
+      })
+      if (!res.ok) throw new Error()
+      const data = await res.json()
+      setBulkStatus({ type: 'success', msg: `Created ${data.created} pieces — refreshing…` })
+      setBulkItems([])
+      setTimeout(() => window.location.reload(), 900)
+    } catch {
+      setBulkStatus({ type: 'error', msg: 'Bulk create failed.' })
+    }
+  }
 
   const onChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
 
@@ -70,7 +92,7 @@ export default function AdminDashboard({ projects: initial }) {
         setProjects((p) => p.map((x) => (x.id === editingId ? { ...x, ...base, cover, images: gallery } : x)))
         setStatus({ type: 'success', msg: 'Project updated.' })
       } else {
-        const payload = { ...base, slug: slugify(form.title) + '-' + Date.now().toString().slice(-5) }
+        const payload = { ...base, slug: makeProjectSlug(form.title) }
         const res = await fetch('/api/projects', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -117,6 +139,40 @@ export default function AdminDashboard({ projects: initial }) {
           <button onClick={logout} className="text-sm text-gray-400 hover:text-white transition-colors">Log out</button>
         </div>
 
+        {/* How to use */}
+        <details className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-8 text-sm text-gray-300" open>
+          <summary className="cursor-pointer font-semibold text-white text-base list-none flex items-center gap-2">
+            <span className="text-[var(--color-accent-DEFAULT)]">?</span> How to use this page
+          </summary>
+          <div className="mt-4 space-y-4 leading-relaxed">
+            <div>
+              <p className="font-medium text-white">Add one project (interior or furniture)</p>
+              <ul className="list-disc pl-5 mt-1 space-y-1 text-gray-400">
+                <li>Type a <span className="text-gray-200">Title</span>, choose <span className="text-gray-200">Interior</span> or <span className="text-gray-200">Furniture</span>, then pick a <span className="text-gray-200">Category</span> from the dropdown.</li>
+                <li>Upload a <span className="text-gray-200">cover image</span> (required) — this is the main photo shown on cards.</li>
+                <li>Add <span className="text-gray-200">gallery images</span> for more photos (hover a thumbnail and click × to remove one).</li>
+                <li>Click <span className="text-gray-200">Add project</span>. It appears in the list below and goes live on the site.</li>
+              </ul>
+            </div>
+            <div>
+              <p className="font-medium text-white">For interiors (case studies)</p>
+              <ul className="list-disc pl-5 mt-1 space-y-1 text-gray-400">
+                <li>Write a few lines in <span className="text-gray-200">Full story</span> (the brief, what you did) — this is what gets its own page and helps Google.</li>
+                <li>Fill <span className="text-gray-200">Location</span> and <span className="text-gray-200">Year</span>, and add room photos to the gallery.</li>
+              </ul>
+            </div>
+            <div>
+              <p className="font-medium text-white">For lots of furniture → use “Bulk add furniture”</p>
+              <ul className="list-disc pl-5 mt-1 space-y-1 text-gray-400">
+                <li>Pick the furniture type, click <span className="text-gray-200">Upload photos</span>, and select many at once.</li>
+                <li>Click <span className="text-gray-200">Create N pieces</span> — each photo becomes its own piece.</li>
+                <li>Then come back and <span className="text-gray-200">Edit</span> any piece to add its name, material tags, and extra photos.</li>
+              </ul>
+            </div>
+            <p className="text-gray-500">Good to know: images must be JPG or PNG (auto-served fast as WebP). Use <span className="text-gray-300">Edit</span> / <span className="text-gray-300">Delete</span> on any card below. Tags = materials or style (comma separated), e.g. “Solid walnut, Fabric”.</p>
+          </div>
+        </details>
+
         {/* Add form */}
         <form onSubmit={handleSubmit} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4 mb-12 shadow-2xl">
           <h2 className="text-lg font-semibold text-white">{editingId ? 'Edit project' : 'Add a project'}</h2>
@@ -126,7 +182,12 @@ export default function AdminDashboard({ projects: initial }) {
               <option value="interior">Interior</option>
               <option value="furniture">Furniture</option>
             </select>
-            <input name="category" value={form.category} onChange={onChange} placeholder="Category (e.g. Living Room)" className={inputCls} />
+            <select name="category" value={form.category} onChange={onChange} className={inputCls}>
+              <option value="">{form.type === 'furniture' ? 'Furniture type…' : 'Category…'}</option>
+              {(form.type === 'furniture' ? FURNITURE_CATEGORIES.map((c) => c.label) : INTERIOR_CATEGORIES).map((label) => (
+                <option key={label} value={label}>{label}</option>
+              ))}
+            </select>
             <input name="location" value={form.location} onChange={onChange} placeholder="Location" className={inputCls} />
             <input name="year" type="number" value={form.year} onChange={onChange} placeholder="Year" className={inputCls} />
             <input name="tags" value={form.tags} onChange={onChange} placeholder="Tags (comma separated)" className={inputCls} />
@@ -189,6 +250,55 @@ export default function AdminDashboard({ projects: initial }) {
             )}
           </div>
         </form>
+
+        {/* Bulk furniture uploader */}
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4 mb-12 shadow-2xl">
+          <div>
+            <h2 className="text-lg font-semibold text-white">Bulk add furniture</h2>
+            <p className="text-sm text-gray-400">Pick a type, drop many photos — each becomes a piece you can refine later.</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <select value={bulkCat} onChange={(e) => setBulkCat(e.target.value)} className={inputCls}>
+              {FURNITURE_CATEGORIES.map((c) => (
+                <option key={c.slug} value={c.label}>{c.label}</option>
+              ))}
+            </select>
+            <CldUploadWidget
+              signatureEndpoint="/api/cloudinary/sign"
+              options={{ folder: 'savistar-portfolio', multiple: true, sources: ['local', 'url'], clientAllowedFormats: ['png', 'jpg', 'jpeg'], maxFileSize: 10000000 }}
+              onSuccess={(result) => {
+                const info = result?.info
+                if (info?.public_id) setBulkItems((arr) => [...arr, { public_id: info.public_id, filename: info.original_filename }])
+              }}
+            >
+              {({ open }) => (
+                <button type="button" onClick={() => open()} className="px-4 py-2 rounded-lg text-sm font-medium bg-white/10 text-gray-100 hover:bg-white/20 transition-colors">
+                  Upload photos ({bulkItems.length})
+                </button>
+              )}
+            </CldUploadWidget>
+            <button
+              type="button"
+              onClick={handleBulkCreate}
+              disabled={bulkItems.length === 0 || bulkStatus.type === 'loading'}
+              className="px-5 py-2 rounded-lg font-semibold text-white bg-[var(--color-accent-DEFAULT)] hover:opacity-90 transition disabled:bg-gray-700 disabled:opacity-100"
+            >
+              {bulkStatus.type === 'loading' ? 'Creating…' : `Create ${bulkItems.length} piece${bulkItems.length === 1 ? '' : 's'}`}
+            </button>
+            {bulkItems.length > 0 && (
+              <button type="button" onClick={() => setBulkItems([])} className="text-sm text-gray-400 hover:text-white">Clear</button>
+            )}
+          </div>
+          {bulkItems.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {bulkItems.map((it) => (
+                <CldImage key={it.public_id} src={it.public_id} width={48} height={48} crop="fill" alt="" className="rounded object-cover ring-1 ring-white/10" />
+              ))}
+            </div>
+          )}
+          {bulkStatus.type === 'error' && <p className="text-red-400 text-sm">{bulkStatus.msg}</p>}
+          {bulkStatus.type === 'success' && <p className="text-emerald-400 text-sm">{bulkStatus.msg}</p>}
+        </div>
 
         <h2 className="text-lg font-semibold text-white mb-4">Projects ({projects.length})</h2>
         {projects.length === 0 && <p className="text-gray-400 text-sm">No projects yet — add your first one above.</p>}

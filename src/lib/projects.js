@@ -28,6 +28,22 @@ export async function getProjects(type) {
   return rows.map(normalize)
 }
 
+export async function getProjectBySlug(slug) {
+  const { rows } = await turso.execute({
+    sql: 'SELECT * FROM projects WHERE slug = ? LIMIT 1',
+    args: [slug],
+  })
+  return rows.length ? normalize(rows[0]) : null
+}
+
+export async function getFurnitureByCategory(label) {
+  const { rows } = await turso.execute({
+    sql: "SELECT * FROM projects WHERE type = 'furniture' AND category = ? ORDER BY sort_order ASC, created_at DESC",
+    args: [label],
+  })
+  return rows.map(normalize)
+}
+
 export async function createProject(d) {
   await turso.execute({
     sql: `INSERT INTO projects (slug, type, category, title, location, year, description, body, tags, cover_url, images)
@@ -38,6 +54,20 @@ export async function createProject(d) {
       JSON.stringify(d.tags ?? []), d.cover_url, JSON.stringify(d.images ?? []),
     ],
   })
+}
+
+// Insert many lightweight pieces in one batch (used by the bulk uploader).
+export async function createProjectsBulk(list) {
+  const stmts = list.map((d) => ({
+    sql: `INSERT INTO projects (slug, type, category, title, location, year, description, body, tags, cover_url, images)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    args: [
+      d.slug, d.type, d.category ?? null, d.title, d.location ?? null,
+      d.year ?? null, d.description ?? null, d.body ?? null,
+      JSON.stringify(d.tags ?? []), d.cover_url, JSON.stringify(d.images ?? []),
+    ],
+  }))
+  await turso.batch(stmts, 'write')
 }
 
 export async function deleteProject(id) {
