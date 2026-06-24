@@ -2,6 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 export async function POST(req: NextRequest) {
   try {
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
       },
       family: 4, // force IPv4 — Render's IPv6 route to Gmail SMTP hangs (ETIMEDOUT)
       connectionTimeout: 10000,
-    });
+    } as SMTPTransport.Options);
 
     // Set up email data
     const mailOptions = {
